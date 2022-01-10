@@ -79,6 +79,7 @@
                         <Private-Package>
                             de.leuphana.cosa.componentservicebus.behaviour
                         </Private-Package>
+<!--                        <Import-Package>!de.leuphana.cosa.printingsystem,*</Import-Package>-->
                     </instructions>
                 </configuration>
             </plugin>

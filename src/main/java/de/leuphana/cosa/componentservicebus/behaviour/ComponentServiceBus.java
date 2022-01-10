@@ -1,12 +1,7 @@
 package de.leuphana.cosa.componentservicebus.behaviour;
 
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
-import de.leuphana.cosa.printingsystem.structure.Printable;
 import org.osgi.framework.*;
-
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class ComponentServiceBus implements BundleActivator, ServiceListener {
 
@@ -38,17 +33,7 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener {
                 System.out.println("Notification of service registered.");
                 serviceReference = serviceEvent.getServiceReference();
                 PrintingService service = (PrintingService) (bundleContext.getService(serviceReference));
-                System.out.println( service.print(new Printable() {
-                    @Override
-                    public String getTitle() {
-                        return "Neues Printable";
-                    }
-
-                    @Override
-                    public List<String> getContent() {
-                        return Arrays.stream("Content zeile1 Zeile2".split(" ")).collect(Collectors.toList());
-                    }
-                }, null, null));
+                System.out.println( service.print(null, null, null));
                 break;
 
             case(ServiceEvent.UNREGISTERING):
