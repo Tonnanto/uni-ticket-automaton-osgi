@@ -9,5 +9,9 @@
         <module name="ticket-automaton-osgi" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="component-service-bus" target="15" />
+      <module name="printing-system-bundle" target="15" />
+    </bytecodeTargetLevel>
   </component>
 </project>
