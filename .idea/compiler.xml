@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="ticket-automaton-osgi" />
+        <module name="ui-system-bundle" />
+        <module name="component-service-bus" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="component-service-bus" target="15" />
       <module name="printing-system-bundle" target="15" />
     </bytecodeTargetLevel>
   </component>
