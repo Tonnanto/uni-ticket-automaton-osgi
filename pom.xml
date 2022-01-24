@@ -10,13 +10,14 @@
     <modules>
         <module>ui-system-bundle</module>
         <module>component-service-bus</module>
+        <module>document-system-bundle</module>
     </modules>
 
     <packaging>pom</packaging>
 
     <properties>
-        <maven.compiler.source>15</maven.compiler.source>
-        <maven.compiler.target>15</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
     </properties>
 
     <dependencyManagement>
@@ -89,53 +90,18 @@
             </dependency>
             <dependency>
                 <groupId>de.leuphana.cosa</groupId>
-                <artifactId>ui-service-bundle</artifactId>
+                <artifactId>ui-system-bundle</artifactId>
                 <version>1.0-SNAPSHOT</version>
                 <scope>compile</scope>
             </dependency>
+            <dependency>
+                <groupId>de.leuphana.cosa</groupId>
+                <artifactId>document-system-bundle</artifactId>
+                <version>1.0-SNAPSHOT</version>
+                <scope>compile</scope>
+            </dependency>
+
+
         </dependencies>
     </dependencyManagement>
-
-<!--    <dependencies>-->
-
-<!--    </dependencies>-->
-
-<!--    <build>-->
-<!--        <plugins>-->
-<!--            <plugin>-->
-<!--                <groupId>org.apache.felix</groupId>-->
-<!--                <artifactId>maven-bundle-plugin</artifactId>-->
-<!--                <version>5.1.4</version>-->
-<!--                <extensions>true</extensions>-->
-<!--                <configuration>-->
-<!--                    <instructions>-->
-<!--                        <Bundle-SymbolicName>-->
-<!--                            ${project.groupId}.${project.artifactId}-->
-<!--                        </Bundle-SymbolicName>-->
-<!--                        <Bundle-Name>${project.name}</Bundle-Name>-->
-<!--                        <Bundle-Version>${project.version}</Bundle-Version>-->
-<!--                        <Bundle-Activator>-->
-<!--                            de.leuphana.cosa.componentservicebus.ComponentServiceBus-->
-<!--                        </Bundle-Activator>-->
-<!--                        <Private-Package>-->
-<!--                            de.leuphana.cosa.componentservicebus.behaviour,-->
-<!--                            de.leuphana.cosa.uisystem.*,-->
-<!--                            de.leuphana.cosa.uisystembundle.*,-->
-<!--                            de.leuphana.cosa.routesystem.*,-->
-<!--                            de.leuphana.cosa.pricingsystem.*,-->
-<!--                            de.leuphana.cosa.documentsystem.*,-->
-<!--                            de.leuphana.cosa.printingsystem.*,-->
-<!--                            de.leuphana.cosa.messagingsystem.*-->
-<!--                        </Private-Package>-->
-<!--                        <Embed-Dependency>-->
-<!--                            jackson-core,-->
-<!--                            jackson-databind,-->
-<!--                            jackson-annotations-->
-<!--                        </Embed-Dependency>-->
-<!--                    </instructions>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
-<!--        </plugins>-->
-<!--    </build>-->
-
 </project>

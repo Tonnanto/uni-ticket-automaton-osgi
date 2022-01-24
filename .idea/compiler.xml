@@ -8,10 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ui-system-bundle" />
         <module name="component-service-bus" />
+        <module name="document-system-bundle" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="printing-system-bundle" target="15" />
-    </bytecodeTargetLevel>
   </component>
 </project>
