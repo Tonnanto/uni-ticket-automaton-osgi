@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Hamburg",
+    "latitude": 53.552,
+    "longitude": 10.071
+  },
+  {
+    "name": "Berlin",
+    "latitude": 52.525,
+    "longitude": 13.369
+  },
+  {
+    "name": "München",
+    "latitude": 48.140,
+    "longitude": 11.558
+  }
+]

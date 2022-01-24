@@ -1,11 +1,12 @@
 package de.leuphana.cosa.componentservicebus.behaviour;
 
+
+import de.leuphana.cosa.documentsystem.behaviour.service.DocumentService;
 import de.leuphana.cosa.messagingsystem.behaviour.service.MessagingService;
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
 import de.leuphana.cosa.routesystem.behaviour.service.RouteService;
-import de.leuphana.cosa.uisystembundle.behaviour.service.UiServiceOsgi;
-import de.leuphana.cosa.documentsystembundle.behaviour.service.DocumentServiceOsgi;
+import de.leuphana.cosa.uisystem.behaviour.service.UiService;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -14,7 +15,6 @@ import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 
-import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -30,17 +30,17 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     private Bundle printingSystemBundle;
     private Bundle messagingSystemBundle;
 
-    private ServiceReference<UiServiceOsgi> uiServiceReference;
+    private ServiceReference<UiService> uiServiceReference;
     private ServiceReference<RouteService> routeServiceReference;
     private ServiceReference<PricingService> pricingServiceReference;
-    private ServiceReference<DocumentServiceOsgi> documentServiceReference;
+    private ServiceReference<DocumentService> documentServiceReference;
     private ServiceReference<PrintingService> printingServiceReference;
     private ServiceReference<MessagingService> messagingServiceReference;
 
-    private UiServiceOsgi uiService;
+    private UiService uiService;
     private RouteService routeService;
     private PricingService pricingService;
-    private DocumentServiceOsgi documentService;
+    private DocumentService documentService;
     private PrintingService printingService;
     private MessagingService messagingService;
 
@@ -60,10 +60,10 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     }
 
     private void startBundles() throws Exception {
-        uiSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/ui-system-bundle/1.0-SNAPSHOT");
+        uiSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/ui-system/1.0-SNAPSHOT");
 //        routeSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/route-system/1.0-SNAPSHOT");
 //        pricingSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/pricing-system/1.0-SNAPSHOT");
-        documentSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/document-system-bundle/1.0-SNAPSHOT");
+        documentSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/document-system/1.0-SNAPSHOT");
 //        printingSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/printing-system/1.0-SNAPSHOT");
 //        messagingSystemBundle = bundleContext.installBundle("mvn:de.leuphana.cosa/messaging-system/1.0-SNAPSHOT");
 
@@ -74,12 +74,10 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 //        printingSystemBundle.start();
 //        messagingSystemBundle.start();
 
-        uiServiceReference = uiSystemBundle.getBundleContext().getServiceReference(UiServiceOsgi.class);
+        uiServiceReference = uiSystemBundle.getBundleContext().getServiceReference(UiService.class);
 //        routeServiceReference = routeSystemBundle.getBundleContext().getServiceReference(RouteService.class);
 //        pricingServiceReference = pricingSystemBundle.getBundleContext().getServiceReference(PricingService.class);
-        documentServiceReference = documentSystemBundle.getBundleContext().getServiceReference(DocumentServiceOsgi.class);
-        Class<?> cls = documentSystemBundle.loadClass("de.leuphana.cosa.documentsystembundle.behaviour.service.DocumentServiceOsgi");
-        System.out.println(documentSystemBundle.getBundleContext().getService(documentServiceReference) instanceof DocumentServiceOsgi);
+        documentServiceReference = documentSystemBundle.getBundleContext().getServiceReference(DocumentService.class);
 //        printingServiceReference = printingSystemBundle.getBundleContext().getServiceReference(PrintingService.class);
 //        messagingServiceReference = messagingSystemBundle.getBundleContext().getServiceReference(MessagingService.class);
 

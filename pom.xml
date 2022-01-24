@@ -8,9 +8,13 @@
     <artifactId>ticket-automaton-osgi</artifactId>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>ui-system-bundle</module>
         <module>component-service-bus</module>
-        <module>document-system-bundle</module>
+        <module>document-system</module>
+        <module>printing-system</module>
+        <module>messaging-system</module>
+        <module>route-system</module>
+        <module>pricing-system</module>
+        <module>ui-system</module>
     </modules>
 
     <packaging>pom</packaging>
@@ -88,19 +92,25 @@
                 <artifactId>jackson-annotations</artifactId>
                 <version>2.13.1</version>
             </dependency>
+
             <dependency>
-                <groupId>de.leuphana.cosa</groupId>
-                <artifactId>ui-system-bundle</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <scope>compile</scope>
-            </dependency>
-            <dependency>
-                <groupId>de.leuphana.cosa</groupId>
-                <artifactId>document-system-bundle</artifactId>
-                <version>1.0-SNAPSHOT</version>
-                <scope>compile</scope>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter-api</artifactId>
+                <version>5.8.2</version>
+                <scope>test</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.17.0</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.17.0</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>
