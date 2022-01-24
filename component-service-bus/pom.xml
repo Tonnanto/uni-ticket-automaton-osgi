@@ -76,6 +76,19 @@
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
         </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.osgi</groupId>
+            <artifactId>spring-osgi-mock</artifactId>
+            <scope>test</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -97,16 +110,16 @@
                         </Bundle-Activator>
                         <Private-Package>
                             de.leuphana.cosa.componentservicebus.behaviour,
-                            de.leuphana.cosa.uisystem.*,
-                            de.leuphana.cosa.routesystem.*,
-                            de.leuphana.cosa.pricingsystem.*,
-                            de.leuphana.cosa.documentsystem.*,
-                            de.leuphana.cosa.printingsystem.*,
-                            de.leuphana.cosa.messagingsystem.*
+<!--                            de.leuphana.cosa.uisystem.*,-->
+<!--                            de.leuphana.cosa.routesystem.*,-->
+<!--                            de.leuphana.cosa.pricingsystem.*,-->
+<!--                            de.leuphana.cosa.documentsystem.*,-->
+<!--                            de.leuphana.cosa.printingsystem.*,-->
+<!--                            de.leuphana.cosa.messagingsystem.*-->
                         </Private-Package>
                         <Export-Package>
                             de.leuphana.cosa.componentservicebus.behaviour.*,
-                            de.leuphana.cosa.uisystem.*,
+<!--                            de.leuphana.cosa.uisystem.*,-->
 <!--                            de.leuphana.cosa.routesystem.behaviour.service.*,-->
 <!--                            de.leuphana.cosa.pricingsystem.behaviour.service.*,-->
 <!--                            de.leuphana.cosa.documentsystem.*,-->
