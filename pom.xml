@@ -146,7 +146,7 @@
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>3.8.0</version>
                     <configuration>
-                        <multiReleaseOutput>false</multiReleaseOutput>
+                        <multiReleaseOutput>true</multiReleaseOutput>
                     </configuration>
                 </plugin>
                 <plugin>

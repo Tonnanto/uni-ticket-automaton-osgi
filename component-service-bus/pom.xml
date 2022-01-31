@@ -100,6 +100,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
+                        <!--            Workaround to make test run-->
+                        <_fixupmessages>"Classes found in the wrong directory";is:=warning</_fixupmessages>
                         <Bundle-SymbolicName>
                             ${project.groupId}.${project.artifactId}
                         </Bundle-SymbolicName>
