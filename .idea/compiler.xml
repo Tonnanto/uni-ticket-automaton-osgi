@@ -12,6 +12,7 @@
         <module name="messaging-system" />
         <module name="document-system" />
         <module name="printing-system" />
+        <module name="utilities" />
         <module name="ui-system" />
       </profile>
     </annotationProcessing>
