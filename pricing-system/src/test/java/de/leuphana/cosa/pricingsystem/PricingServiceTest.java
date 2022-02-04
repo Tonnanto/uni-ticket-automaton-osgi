@@ -1,6 +1,8 @@
 package de.leuphana.cosa.pricingsystem;
 
 import de.leuphana.cosa.pricingsystem.behaviour.PricingServiceImpl;
+import de.leuphana.cosa.pricingsystem.structure.Pricable;
+import de.leuphana.cosa.pricingsystem.structure.Price;
 import de.leuphana.cosa.pricingsystem.structure.PriceRate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -17,15 +19,21 @@ public class PricingServiceTest {
 
     @Test
     void canPriceBeCalculated() {
-        double distance = 100;
+        Pricable pricable = new Pricable() {
+            @Override
+            public double getAmount() {  return 100;  }
 
-        double normalPrice = priceService.calculatePrice(distance, PriceRate.NORMAL);
-        double cheapTravelPrice = priceService.calculatePrice(distance, PriceRate.CHEAP_TRAVEL);
-        double bargainPrice = priceService.calculatePrice(distance, PriceRate.BARGAIN);
+            @Override
+            public String getName() { return "Test Strecke"; }
+        };
 
-        Assertions.assertEquals(distance * 1.45, normalPrice);
-        Assertions.assertEquals(distance * 1.45 * 0.75, cheapTravelPrice);
-        Assertions.assertEquals(distance * 1.45 * 0.5, bargainPrice);
+        double normalPrice = new Price(pricable, PriceRate.NORMAL).calculatePrice();
+        double cheapTravelPrice = new Price(pricable, PriceRate.CHEAP_TRAVEL).calculatePrice();
+        double bargainPrice = new Price(pricable, PriceRate.BARGAIN).calculatePrice();
+
+        Assertions.assertEquals(pricable.getAmount() * 1.45, normalPrice);
+        Assertions.assertEquals(pricable.getAmount() * 1.45 * 0.75, cheapTravelPrice);
+        Assertions.assertEquals(pricable.getAmount() * 1.45 * 0.5, bargainPrice);
     }
 
 }

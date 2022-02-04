@@ -75,7 +75,6 @@ public class RouteServiceImpl implements RouteService, BundleActivator {
         Route route = createRoute(startLocation, endLocation);
 
         // Trigger event
-        System.out.println(this);
         EventAdmin eventAdmin = (EventAdmin) eventAdminTracker.getService();
 
         if (eventAdmin != null) {

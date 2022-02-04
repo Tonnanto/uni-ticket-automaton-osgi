@@ -54,4 +54,15 @@ public class BookingDetail {
     public void setPriceGroup(String priceGroup) {
         this.priceGroup = priceGroup;
     }
+
+    @Override
+    public String toString() {
+        return "BookingDetail{" +
+                "start='" + start + '\'' +
+                ", destination='" + destination + '\'' +
+                ", distance=" + distance +
+                ", price=" + price +
+                ", priceGroup='" + priceGroup + '\'' +
+                '}';
+    }
 }

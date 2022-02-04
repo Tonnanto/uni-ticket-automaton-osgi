@@ -1,9 +1,10 @@
 package de.leuphana.cosa.pricingsystem.behaviour.service;
 
-import de.leuphana.cosa.pricingsystem.structure.PriceRate;
+import de.leuphana.cosa.pricingsystem.structure.Pricable;
 
 public interface PricingService {
     String PRICE_DETERMINED_TOPIC = "priceservice/price/determined";
+    String PRICE_KEY = "price";
 
-    double calculatePrice(double distance, PriceRate rate);
+    void selectPriceRate(Pricable pricable);
 }
