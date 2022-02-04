@@ -10,9 +10,9 @@ import de.leuphana.cosa.messagingsystem.behaviour.service.MessagingService;
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
 import de.leuphana.cosa.routesystem.behaviour.service.RouteService;
-import de.leuphana.cosa.routesystem.structure.Location;
-import de.leuphana.cosa.uisystem.behaviour.service.UiService;
-import org.osgi.framework.*;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.BundleException;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
@@ -20,9 +20,8 @@ import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.Dictionary;
 import java.util.Hashtable;
-import java.util.List;
 
-public class ComponentServiceBus implements BundleActivator, ServiceListener, EventHandler {
+public class ComponentServiceBus implements BundleActivator, EventHandler {
 
     private BundleContext bundleContext;
 
@@ -38,7 +37,6 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
     ServiceTracker printingServiceTracker;
     ServiceTracker messagingServiceTracker;
 
-    private UiService uiService;
     private RouteService routeService;
     private PricingService pricingService;
     private DocumentService documentService;
@@ -55,17 +53,10 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
             startBundles();
 
             // TODO: initiate ticket order process
-
-            // Test purpose
             routeService = (RouteService) routeServiceTracker.getService();
-            uiService = (UiService) uiServiceTracker.getService();
 
-            if (routeService != null) {
-                List<Location> locations = routeService.getLocations();
-                int selection = uiService.selectStartLocation(locations.stream().map((Location::getName)).toList());
-                Location selectedLocation = locations.get(selection);
-                System.out.println("Selected: " + selectedLocation.getName());
-            }
+            routeService.selectRoute();
+
 
 //            bundleContext.addServiceListener(this, "(objectclass=" + UiService.class.getName() + ")");
 
@@ -75,11 +66,9 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
     }
 
     private void startBundles() throws BundleException {
+        bundleContext.getBundle("mvn:de.leuphana.cosa/ui-system/1.0-SNAPSHOT").start();
         if (routeServiceTracker.isEmpty()) {
             bundleContext.getBundle("mvn:de.leuphana.cosa/route-system/1.0-SNAPSHOT").start();
-        }
-        if (uiServiceTracker.isEmpty()) {
-            bundleContext.getBundle("mvn:de.leuphana.cosa/ui-system/1.0-SNAPSHOT").start();
         }
         if (pricingServiceTracker.isEmpty()) {
             bundleContext.getBundle("mvn:de.leuphana.cosa/pricing-system/1.0-SNAPSHOT").start();
@@ -108,14 +97,12 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
 
     private void setUpServiceTracker() {
         routeServiceTracker = new ServiceTracker(bundleContext, RouteService.class.getName(), null);
-        uiServiceTracker = new ServiceTracker(bundleContext, UiService.class.getName(), null);
         pricingServiceTracker = new ServiceTracker(bundleContext, PricingService.class.getName(), null);
         documentServiceTracker = new ServiceTracker(bundleContext, DocumentService.class.getName(), null);
         printingServiceTracker = new ServiceTracker(bundleContext, PrintingService.class.getName(), null);
         messagingServiceTracker = new ServiceTracker(bundleContext, MessagingService.class.getName(), null);
 
         routeServiceTracker.open();
-        uiServiceTracker.open();
         pricingServiceTracker.open();
         documentServiceTracker.open();
         printingServiceTracker.open();
@@ -172,23 +159,23 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
         }
     }
 
-    @Override
-    public void serviceChanged(ServiceEvent serviceEvent) {
-        System.out.println("Service changed");
-        int type = serviceEvent.getType();
-        switch (type) {
-            case(ServiceEvent.REGISTERED):
-                System.out.println("Event: Service registered.");
-                ServiceReference serviceReference = serviceEvent.getServiceReference();
-                uiService = (UiService) (bundleContext.getService(serviceReference));
-                uiService.showPurchaseConfirmation();
-                break;
-            case(ServiceEvent.UNREGISTERING):
-                System.out.println("Event: Service unregistered.");
-                bundleContext.ungetService(serviceEvent.getServiceReference());
-                break;
-            default:
-                break;
-        }
-    }
+//    @Override
+//    public void serviceChanged(ServiceEvent serviceEvent) {
+//        System.out.println("Service changed");
+//        int type = serviceEvent.getType();
+//        switch (type) {
+//            case(ServiceEvent.REGISTERED):
+//                System.out.println("Event: Service registered.");
+//                ServiceReference serviceReference = serviceEvent.getServiceReference();
+//                uiService = (UiService) (bundleContext.getService(serviceReference));
+//                uiService.showPurchaseConfirmation();
+//                break;
+//            case(ServiceEvent.UNREGISTERING):
+//                System.out.println("Event: Service unregistered.");
+//                bundleContext.ungetService(serviceEvent.getServiceReference());
+//                break;
+//            default:
+//                break;
+//        }
+//    }
 }

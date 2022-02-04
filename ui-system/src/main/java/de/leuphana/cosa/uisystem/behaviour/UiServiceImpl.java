@@ -5,32 +5,29 @@ import de.leuphana.cosa.uisystem.structure.SelectionView;
 import de.leuphana.cosa.uisystem.structure.View;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
-import org.osgi.framework.ServiceRegistration;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 import java.util.List;
 
 public class UiServiceImpl implements UiService, BundleActivator {
 
-    private ServiceReference<UiService> reference;
-    private ServiceRegistration<UiService> registration;
+//    private ServiceReference<UiService> reference;
+//    private ServiceRegistration<UiService> registration;
 
     @Override
     public void start(BundleContext bundleContext) {
-        System.out.println("Registering UiService.");
-        registration = bundleContext.registerService(
-                UiService.class,
-                new UiServiceImpl(),
-                new Hashtable<String, String>());
-        reference = registration.getReference();
+        System.out.println("Starting UiService.");
+//        registration = bundleContext.registerService(
+//                UiService.class,
+//                new UiServiceImpl(),
+//                new Hashtable<String, String>());
+//        reference = registration.getReference();
     }
 
     @Override
     public void stop(BundleContext bundleContext) {
         System.out.println("Unregistering UiService.");
-        registration.unregister();
+//        registration.unregister();
     }
 
     @Override

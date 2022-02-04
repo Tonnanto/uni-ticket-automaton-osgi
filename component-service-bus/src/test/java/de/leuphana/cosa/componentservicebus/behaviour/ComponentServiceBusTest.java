@@ -8,43 +8,43 @@ import org.springframework.osgi.mock.MockServiceReference;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ComponentServiceBusTest {
 
-    static ServiceReference reference;
-    static BundleContext bundleContext;
-    static Object service;
-
-    static Bundle componentServiceBusBundle;
-
-    @BeforeAll
-    static void setUp() throws Exception {
-        reference = new MockServiceReference();
-        bundleContext = new MockBundleContext() {
-
-            public ServiceReference getServiceReference(String clazz) {
-                return reference;
-            }
-
-            public ServiceReference[] getServiceReferences(String clazz, String filter) throws InvalidSyntaxException {
-                return new ServiceReference[]{reference};
-            }
-
-            public Object getService(ServiceReference ref) {
-                if (reference == ref)
-                    return service;
-                return super.getService(ref);
-            }
-        };
-    }
-
-    @Test
-    @Order(0)
-    public void testOsgiEnvironment() throws Exception {
-        Bundle[] bundles = bundleContext.getBundles();
-        for (Bundle bundle : bundles) {
-            System.out.print(bundle.getSymbolicName());
-            System.out.print(", ");
-        }
-        System.out.println();
-    }
+//    static ServiceReference reference;
+//    static BundleContext bundleContext;
+//    static Object service;
+//
+//    static Bundle componentServiceBusBundle;
+//
+//    @BeforeAll
+//    static void setUp() throws Exception {
+//        reference = new MockServiceReference();
+//        bundleContext = new MockBundleContext() {
+//
+//            public ServiceReference getServiceReference(String clazz) {
+//                return reference;
+//            }
+//
+//            public ServiceReference[] getServiceReferences(String clazz, String filter) throws InvalidSyntaxException {
+//                return new ServiceReference[]{reference};
+//            }
+//
+//            public Object getService(ServiceReference ref) {
+//                if (reference == ref)
+//                    return service;
+//                return super.getService(ref);
+//            }
+//        };
+//    }
+//
+//    @Test
+//    @Order(0)
+//    public void testOsgiEnvironment() throws Exception {
+//        Bundle[] bundles = bundleContext.getBundles();
+//        for (Bundle bundle : bundles) {
+//            System.out.print(bundle.getSymbolicName());
+//            System.out.print(", ");
+//        }
+//        System.out.println();
+//    }
 
 //    @Test
 //    @Order(1)
