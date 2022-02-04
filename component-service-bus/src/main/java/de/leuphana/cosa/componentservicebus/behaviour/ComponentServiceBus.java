@@ -10,6 +10,7 @@ import de.leuphana.cosa.messagingsystem.behaviour.service.MessagingService;
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
 import de.leuphana.cosa.routesystem.behaviour.service.RouteService;
+import de.leuphana.cosa.routesystem.structure.Route;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -18,6 +19,7 @@ import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
@@ -48,9 +50,9 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 
         this.bundleContext = bundleContext;
         try {
-            registerEventHandler();
             setUpServiceTracker();
             startBundles();
+            registerEventHandler();
 
             // TODO: initiate ticket order process
             routeService = (RouteService) routeServiceTracker.getService();
@@ -140,20 +142,25 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     @Override
     public void handleEvent(Event event) {
         System.out.println("Event received: " + event.getTopic());
+        System.out.println("Properties: " + Arrays.toString(event.getPropertyNames()));
 
         switch (event.getTopic()) {
             case RouteService.ROUTE_CREATED_TOPIC:
-                // TODO: delegate to adapter
+                routeToPricableAdapter.onRouteCreated(event);
                 break;
+
             case PricingService.PRICE_DETERMINED_TOPIC:
                 // TODO: delegate to adapter
                 break;
+
             case DocumentService.DOCUMENT_CREATED_TOPIC:
                 // TODO: delegate to adapter
                 break;
+
             case PrintingService.PRINT_REPORT_CREATED_TOPIC:
                 // TODO: delegate to adapter
                 break;
+
             default:
                 break;
         }

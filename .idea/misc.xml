@@ -16,6 +16,11 @@
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/utilities/pom.xml" />
+      </set>
+    </option>
   </component>
   <component name="Osmorc">
     <option name="bundlesOutputPath" value="$PROJECT_DIR$/out/bundles" />
