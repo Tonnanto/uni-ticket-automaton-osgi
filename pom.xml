@@ -15,7 +15,6 @@
         <module>route-system</module>
         <module>pricing-system</module>
         <module>ui-system</module>
-        <module>utilities</module>
     </modules>
 
     <packaging>pom</packaging>
