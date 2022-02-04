@@ -31,12 +31,7 @@ public class RouteToPricableAdapter {
             };
 
             // Call pricing service
-            // TODO
-
+            pricingService.selectPriceRate(pricable);
         }
-    }
-
-    public void onPriceRateSelected(PriceRate priceRate) {
-
     }
 }

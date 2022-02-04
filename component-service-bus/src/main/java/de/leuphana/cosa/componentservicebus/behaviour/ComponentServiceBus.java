@@ -10,7 +10,6 @@ import de.leuphana.cosa.messagingsystem.behaviour.service.MessagingService;
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
 import de.leuphana.cosa.routesystem.behaviour.service.RouteService;
-import de.leuphana.cosa.routesystem.structure.Route;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -32,7 +31,6 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     DocumentToPrintableAdapter documentToPrintableAdapter;
     PrintReportToSendableAdapter printReportToSendableAdapter;
 
-    ServiceTracker uiServiceTracker;
     ServiceTracker routeServiceTracker;
     ServiceTracker pricingServiceTracker;
     ServiceTracker documentServiceTracker;
@@ -47,24 +45,38 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 
     @Override
     public void start(BundleContext bundleContext) {
-
         this.bundleContext = bundleContext;
+
         try {
             setUpServiceTracker();
             startBundles();
+            getServices();
+            createAdapter();
             registerEventHandler();
 
-            // TODO: initiate ticket order process
-            routeService = (RouteService) routeServiceTracker.getService();
-
+            // initiate ticket order process
             routeService.selectRoute();
-
 
 //            bundleContext.addServiceListener(this, "(objectclass=" + UiService.class.getName() + ")");
 
         } catch (Exception exception) {
             exception.printStackTrace();
         }
+    }
+
+    private void getServices() {
+        routeService = (RouteService) routeServiceTracker.getService();
+        pricingService = (PricingService) pricingServiceTracker.getService();
+        documentService = (DocumentService) documentServiceTracker.getService();
+        printingService = (PrintingService) printingServiceTracker.getService();
+        messagingService = (MessagingService) messagingServiceTracker.getService();
+    }
+
+    private void createAdapter() {
+        routeToPricableAdapter = new RouteToPricableAdapter(pricingService);
+        bookingDetailToDocumentableAdapter = new BookingDetailToDocumentableAdapter(documentService);
+        documentToPrintableAdapter = new DocumentToPrintableAdapter(printingService);
+        printReportToSendableAdapter = new PrintReportToSendableAdapter(messagingService);
     }
 
     private void startBundles() throws BundleException {
@@ -147,10 +159,11 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         switch (event.getTopic()) {
             case RouteService.ROUTE_CREATED_TOPIC:
                 routeToPricableAdapter.onRouteCreated(event);
+                bookingDetailToDocumentableAdapter.onRouteCreated(event);
                 break;
 
             case PricingService.PRICE_DETERMINED_TOPIC:
-                // TODO: delegate to adapter
+                bookingDetailToDocumentableAdapter.onPriceDetermined(event);
                 break;
 
             case DocumentService.DOCUMENT_CREATED_TOPIC:
