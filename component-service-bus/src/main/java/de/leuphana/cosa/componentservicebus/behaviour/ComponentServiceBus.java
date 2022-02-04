@@ -24,11 +24,6 @@ import java.util.List;
 
 public class ComponentServiceBus implements BundleActivator, ServiceListener, EventHandler {
 
-    static final String ROUTE_CREATED_TOPIC = "routeservice/route/created";
-    static final String PRICE_DETERMINED_TOPIC = "priceservice/price/determined";
-    static final String DOCUMENT_CREATED_TOPIC = "documentservice/document/created";
-    static final String PRINT_REPORT_CREATED_TOPIC = "printingservice/printreport/created";
-
     private BundleContext bundleContext;
 
     RouteToPricableAdapter routeToPricableAdapter;
@@ -103,10 +98,10 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
     private void registerEventHandler() throws Exception {
         Dictionary<String, Object> properties = new Hashtable<>();
         properties.put(EventConstants.EVENT_TOPIC, new String[]{
-                ROUTE_CREATED_TOPIC,
-                PRICE_DETERMINED_TOPIC,
-                DOCUMENT_CREATED_TOPIC,
-                PRINT_REPORT_CREATED_TOPIC
+                RouteService.ROUTE_CREATED_TOPIC,
+                PricingService.PRICE_DETERMINED_TOPIC,
+                DocumentService.DOCUMENT_CREATED_TOPIC,
+                PrintingService.PRINT_REPORT_CREATED_TOPIC
         });
         bundleContext.registerService(EventHandler.class.getName(), this, properties);
     }
@@ -160,16 +155,16 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
         System.out.println("Event received: " + event.getTopic());
 
         switch (event.getTopic()) {
-            case ROUTE_CREATED_TOPIC:
+            case RouteService.ROUTE_CREATED_TOPIC:
                 // TODO: delegate to adapter
                 break;
-            case PRICE_DETERMINED_TOPIC:
+            case PricingService.PRICE_DETERMINED_TOPIC:
                 // TODO: delegate to adapter
                 break;
-            case DOCUMENT_CREATED_TOPIC:
+            case DocumentService.DOCUMENT_CREATED_TOPIC:
                 // TODO: delegate to adapter
                 break;
-            case PRINT_REPORT_CREATED_TOPIC:
+            case PrintingService.PRINT_REPORT_CREATED_TOPIC:
                 // TODO: delegate to adapter
                 break;
             default:
@@ -181,7 +176,7 @@ public class ComponentServiceBus implements BundleActivator, ServiceListener, Ev
     public void serviceChanged(ServiceEvent serviceEvent) {
         System.out.println("Service changed");
         int type = serviceEvent.getType();
-        switch (type){
+        switch (type) {
             case(ServiceEvent.REGISTERED):
                 System.out.println("Event: Service registered.");
                 ServiceReference serviceReference = serviceEvent.getServiceReference();

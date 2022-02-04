@@ -1,6 +1,7 @@
 package de.leuphana.cosa.documentsystem.behaviour;
 
 import de.leuphana.cosa.documentsystem.behaviour.service.DocumentService;
+import de.leuphana.cosa.documentsystem.structure.BookingDetail;
 import de.leuphana.cosa.documentsystem.structure.TicketDocumentTemplate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,8 +46,16 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
 		registration.unregister();
 	}
 
-	public TicketDocumentTemplate createTicketDocument(String start, String destination, int distance, double price, String priceGroup) {
-		TicketDocumentTemplate ticketDocument = new TicketDocumentTemplate(start, destination, distance, price, priceGroup);
+	public void createDocument(BookingDetail bookingDetail) {
+
+		// Show overview and get user confirmation
+		// Create Ticket
+		// Trigger event (DOCUMENT_CREATED_TOPIC)
+
+	}
+
+	public TicketDocumentTemplate createTicketDocument(BookingDetail bookingDetail) {
+		TicketDocumentTemplate ticketDocument = new TicketDocumentTemplate(bookingDetail.getStart(), bookingDetail.getDestination(), bookingDetail.getDistance(), bookingDetail.getPrice(), bookingDetail.getPriceGroup());
 		
 		//logger.info("Document created: " + documentName);
 		//todo benötigen wir noch die Map????

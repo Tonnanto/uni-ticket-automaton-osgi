@@ -43,6 +43,14 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 		registration.unregister();
 	}
 
+	public void print(Printable printable) {
+
+		// Print document
+		// Create PrintReport
+		// trigger event (PRINT_REPORT_CREATED_TOPIC)
+
+	}
+
 	public PrintReport print(Printable printable, PrintOptions printOptions, UserAccount userAccount) {
 
 //		Check user account balance

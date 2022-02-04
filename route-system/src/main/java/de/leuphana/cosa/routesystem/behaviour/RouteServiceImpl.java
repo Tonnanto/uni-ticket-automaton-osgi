@@ -47,6 +47,15 @@ public class RouteServiceImpl implements RouteService, BundleActivator {
         registration.unregister();
     }
 
+    public void selectRoute() {
+
+        // Let user select start location
+        // Let user select end location
+        // Create route
+        // Trigger event (ROUTE_CREATED_TOPIC)
+
+    }
+
     @Override
     public Route createRoute(Location startLocation, Location endLocation) {
         double distance = calculateDistance(startLocation, endLocation);

@@ -1,6 +1,7 @@
 package de.leuphana.cosa.pricingsystem.behaviour;
 
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
+import de.leuphana.cosa.pricingsystem.structure.Pricable;
 import de.leuphana.cosa.pricingsystem.structure.PriceRate;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
@@ -30,6 +31,14 @@ public class PricingServiceImpl implements PricingService, BundleActivator {
     public void stop(BundleContext bundleContext) {
         System.out.println("Unregistering PricingService.");
         registration.unregister();
+    }
+
+    public void selectPriceRate(Pricable pricable) {
+
+        // Let user select price rate
+        // Calculate price
+        // trigger event (PRICE_DETERMINED_TOPIC)
+
     }
 
     @Override
