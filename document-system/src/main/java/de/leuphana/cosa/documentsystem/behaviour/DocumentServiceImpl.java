@@ -33,7 +33,7 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
 		System.out.println("Registering DocumentService.");
 		registration = bundleContext.registerService(
 				DocumentService.class,
-				new DocumentServiceImpl(),
+				this,
 				new Hashtable<String, String>());
 		reference = registration
 				.getReference();

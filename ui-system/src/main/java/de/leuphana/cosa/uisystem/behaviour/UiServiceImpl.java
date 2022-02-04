@@ -19,7 +19,7 @@ public class UiServiceImpl implements UiService, BundleActivator {
         System.out.println("Starting UiService.");
 //        registration = bundleContext.registerService(
 //                UiService.class,
-//                new UiServiceImpl(),
+//                this,
 //                new Hashtable<String, String>());
 //        reference = registration.getReference();
     }

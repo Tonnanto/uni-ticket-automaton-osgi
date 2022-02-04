@@ -20,7 +20,7 @@ public class PricingServiceImpl implements PricingService, BundleActivator {
         System.out.println("Registering PricingService.");
         registration = bundleContext.registerService(
                 PricingService.class,
-                new PricingServiceImpl(),
+                this,
                 new Hashtable<String, String>());
         reference = registration
                 .getReference();

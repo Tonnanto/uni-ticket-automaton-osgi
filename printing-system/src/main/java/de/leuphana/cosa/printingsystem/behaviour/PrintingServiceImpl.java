@@ -30,7 +30,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 		System.out.println("Registering PrintingService.");
 		registration = bundleContext.registerService(
 				PrintingService.class,
-				new PrintingServiceImpl(),
+				this,
 				new Hashtable<String, String>());
 		reference = registration
 				.getReference();

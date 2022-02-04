@@ -27,7 +27,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 		System.out.println("Registering MessagingService.");
 		registration = bundleContext.registerService(
 				MessagingService.class,
-				new MessagingServiceImpl(),
+				this,
 				new Hashtable<String, String>());
 		reference = registration
 				.getReference();
