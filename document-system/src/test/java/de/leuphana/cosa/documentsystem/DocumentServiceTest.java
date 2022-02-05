@@ -2,6 +2,7 @@ package de.leuphana.cosa.documentsystem;
 
 import de.leuphana.cosa.documentsystem.behaviour.DocumentServiceImpl;
 import de.leuphana.cosa.documentsystem.structure.BookingDetail;
+import de.leuphana.cosa.documentsystem.structure.Documentable;
 import org.junit.jupiter.api.*;
 
 class DocumentServiceTest {
@@ -20,7 +21,7 @@ class DocumentServiceTest {
 	@Test
 	@Order(1)
 	void canNormalTicketDocumentBeCreatedTest() {
-		BookingDetail bookingDetail = new BookingDetail("Berlin", "Hamburg", 120, 69.99, "Normal");
-		Assertions.assertNotNull(documentSystem.createTicketDocument(bookingDetail));
+		Documentable documentable = new Documentable("Name", "Header", "Body", "Footer");
+		Assertions.assertNotNull(documentSystem.createDocument(documentable));
 	}
 }
