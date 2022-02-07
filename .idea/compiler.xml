@@ -6,19 +6,8 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="route-system" />
-        <module name="component-service-bus" />
-        <module name="pricing-system" />
-        <module name="messaging-system" />
-        <module name="document-system" />
-        <module name="printing-system" />
-        <module name="ui-system" />
+        <module name="ticket-automaton-osgi" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="document-system-bundle" target="16" />
-      <module name="ui-system-bundle" target="16" />
-      <module name="utilities" target="16" />
-    </bytecodeTargetLevel>
   </component>
 </project>
