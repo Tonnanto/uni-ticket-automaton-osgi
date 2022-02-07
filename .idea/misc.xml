@@ -1,14 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="Osmorc" url="file://$PROJECT_DIR$/component-service-bus" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/document-system" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/messaging-system" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/pricing-system" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/printing-system" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/route-system" />
+    <file type="Osmorc" url="file://$PROJECT_DIR$/ui-system" />
+  </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
       </list>
     </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/utilities/pom.xml" />
+      </set>
+    </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_15" default="true" project-jdk-name="15" project-jdk-type="JavaSDK">
+  <component name="Osmorc">
+    <option name="bundlesOutputPath" value="$PROJECT_DIR$/out/bundles" />
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_16" default="true" project-jdk-name="16" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
   </component>
 </project>
