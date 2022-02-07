@@ -22,6 +22,6 @@ class DocumentServiceTest {
 	@Order(1)
 	void canNormalTicketDocumentBeCreatedTest() {
 		Documentable documentable = new Documentable("Name", "Header", "Body", "Footer");
-		Assertions.assertNotNull(documentSystem.createDocument(documentable));
+		Assertions.assertNotNull(documentSystem.createTicketDocument(documentable));
 	}
 }

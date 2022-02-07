@@ -28,4 +28,14 @@ public class Documentable {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "Documentable{" +
+                "name='" + name + '\'' +
+                ", header='" + header + '\'' +
+                ", body='" + body + '\'' +
+                ", footer='" + footer + '\'' +
+                '}';
+    }
 }

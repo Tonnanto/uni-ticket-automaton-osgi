@@ -51,6 +51,7 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
         registration.unregister();
     }
 
+    @Override
     public void createDocument(Documentable documentable) {
 
         // Show overview and get user confirmation
@@ -70,16 +71,8 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
         }
     }
 
-    @Override
     public TicketDocumentTemplate createTicketDocument(Documentable documentable) {
-        TicketDocumentTemplate ticketDocument = new TicketDocumentTemplate(documentable);
-
-        //logger.info("Document created: " + documentName);
-        //todo benötigen wir noch die Map????
-        documentMap.put("NormalTest", ticketDocument);
-
-
-        return ticketDocument;
+        return new TicketDocumentTemplate(documentable);
     }
 
     public TicketDocumentTemplate getDocument(String documentName) {

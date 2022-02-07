@@ -167,7 +167,7 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
                 break;
 
             case DocumentService.DOCUMENT_CREATED_TOPIC:
-                // TODO: delegate to adapter
+                documentToPrintableAdapter.onDocumentCreated(event);
                 break;
 
             case PrintingService.PRINT_REPORT_CREATED_TOPIC:

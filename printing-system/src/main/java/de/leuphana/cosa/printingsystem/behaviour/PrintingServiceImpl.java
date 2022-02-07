@@ -46,7 +46,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 	public void print(Printable printable) {
 
 		// Print document
-		// Create PrintReport
+		// Create PrintReport (timestamp, ticketname, isPrinted)
 		// trigger event (PRINT_REPORT_CREATED_TOPIC)
 
 	}
