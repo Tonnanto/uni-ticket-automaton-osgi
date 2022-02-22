@@ -1,11 +1,8 @@
 package de.leuphana.cosa.printingsystem.behaviour.service;
 
-import de.leuphana.cosa.printingsystem.structure.PrintOptions;
-import de.leuphana.cosa.printingsystem.structure.PrintReport;
 import de.leuphana.cosa.printingsystem.structure.Printable;
-import de.leuphana.cosa.printingsystem.structure.UserAccount;
 
 public interface PrintingService {
     String PRINT_REPORT_CREATED_TOPIC = "printingservice/printreport/created";
-    void print(Printable printable);
+    void printPrintable(Printable printable);
 }

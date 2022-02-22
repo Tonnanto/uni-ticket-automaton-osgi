@@ -63,7 +63,7 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
 
             if (eventAdmin != null) {
                 Dictionary<String, Object> content = new Hashtable<>();
-                content.put(DOCUMENT_CREATED_TOPIC, ticketDocumentTemplate);
+                content.put(DOCUMENT_KEY, ticketDocumentTemplate);
                 eventAdmin.sendEvent(new Event(DOCUMENT_CREATED_TOPIC, content));
             } else {
                 System.out.println("EventAdmin not found: Event could not be triggered: " + DOCUMENT_CREATED_TOPIC);

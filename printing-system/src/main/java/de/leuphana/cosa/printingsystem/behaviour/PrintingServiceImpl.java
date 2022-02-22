@@ -1,10 +1,7 @@
 package de.leuphana.cosa.printingsystem.behaviour;
 
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
-import de.leuphana.cosa.printingsystem.structure.ColorType;
-import de.leuphana.cosa.printingsystem.structure.PrintReport;
-import de.leuphana.cosa.printingsystem.structure.Printable;
-import de.leuphana.cosa.printingsystem.structure.Printer;
+import de.leuphana.cosa.printingsystem.structure.*;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -44,6 +41,8 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
         reference = registration
                 .getReference();
 
+        eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
+        eventAdminTracker.open();
     }
 
     @Override
@@ -52,15 +51,15 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
         registration.unregister();
     }
 
-    public void print(Printable printable) {
-		PrintReport printReport;
-        try {
-            System.out.println(printable.getContent());
-            printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), true);
-        } catch (Exception e) {
-            System.out.println("Error");
-            printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), false);
-        }
+    /**
+     * Use Case: Print Printable
+     * Prints the given Printable and returns a PrintReport
+     * Triggers an event with the "PRINT_REPORT_CREATED_TOPIC" topic once the document is printed.
+     */
+    public void printPrintable(Printable printable) {
+
+		// Trigger printing process
+        PrintReport printReport = print(printable);
 
         // Create PrintReport (timestamp, ticketname, isPrinted)
         EventAdmin eventAdmin = (EventAdmin) eventAdminTracker.getService();
@@ -74,45 +73,33 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
         }
     }
 
-//	public PrintReport print(Printable printable, PrintOptions printOptions, UserAccount userAccount) {
-//
-////		Check user account balance
-//		if (checkUserAccountBalance(userAccount) < printOptions.getTotalPrice()) return null;
-//
-//		// TODO check if user account balance is positive
-////		Check printer resources
-////		Withdraw amount from user account
-////		Create print job
-////		Send print job to printer
-////		Show print confirmation
-//
-//
-//		PrintJob printJob = new PrintJob(printable, printOptions);
-//		// Suche des richtigen Druckers (simuliert)
-//		Printer selectedPrinter = null;
-//		for (Printer printer : printers) {
-//			// if( ) {
-//			selectedPrinter = printer;
-//			// }
-//		}
-//		assert selectedPrinter != null;
-//		selectedPrinter.addPrintJob(printJob);
-//
-//		PrintReport printReport = null;
-//
-//		if (selectedPrinter.print()) {
-//			String name = "PrintReport for " + printJob.getPrintable().getTitle();
-//			printReport = new PrintReport(name, printOptions);
-//		}
-//
-////		for (PrintingEventListener listener: listeners) {
-////			listener.onPrintReportCreated(new PrintingEvent(printReport));
-////		}
-//
-//		return printReport;
-//	}
+    /**
+     * Creates a PrintJob and hands it to the selected printer
+     * @param printable the Printable to print
+     * @return the created PrintReport
+     */
+	public PrintReport print(Printable printable) {
 
-//	private Double checkUserAccountBalance(UserAccount userAccount) {
-//		return userAccount.getAccountBalance();
-//	}
+		PrintJob printJob = new PrintJob(printable);
+		// Suche des richtigen Druckers (simuliert)
+		Printer selectedPrinter = null;
+		for (Printer printer : printers) {
+			// if( ) {
+			selectedPrinter = printer;
+			// }
+		}
+
+		assert selectedPrinter != null;
+		selectedPrinter.addPrintJob(printJob);
+
+		PrintReport printReport;
+
+		if (selectedPrinter.print()) {
+			printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), true);
+		} else {
+            printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), false);
+        }
+
+		return printReport;
+	}
 }
