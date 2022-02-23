@@ -48,7 +48,7 @@ public class PricingServiceImpl implements PricingService, BundleActivator {
     /**
      * Use Case: Select Price Rate
      * Creates a price object based on the price rate selected by the user.
-     * Triggers a event with the "PRICE_DETERMINED_TOPIC" topic once the price is determined.
+     * Triggers an event with the "PRICE_DETERMINED_TOPIC" topic once the price is determined.
      */
     public void selectPriceRate(Pricable pricable) {
 

@@ -73,6 +73,6 @@ class PrintingServiceTest {
 
 	@Test
 	void canDocumentBePrintedTest() {
-		Assertions.assertNotNull(printingSystem.print(printable, printOptions, userAccount));
+		Assertions.assertNotNull(printingSystem.print(printable));
 	}
 }

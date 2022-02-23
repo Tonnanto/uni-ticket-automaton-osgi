@@ -8,10 +8,9 @@ public class PrintJob {
 
 //    private final Logger logger;
     private Printable printable;
-    private PrintOptions printOptions;
     private PrintJobState printJobState;
 
-    public PrintJob(Printable printable, PrintOptions printOptions) {
+    public PrintJob(Printable printable) {
 //        logger = LogManager.getLogger(this.getClass());
         this.printable = printable;
         this.printJobState = new CreatedPrintJobState(this);
@@ -32,13 +31,5 @@ public class PrintJob {
 
     public void setPrintable(Printable printable) {
         this.printable = printable;
-    }
-
-    public PrintOptions getPrintOptions() {
-        return printOptions;
-    }
-
-    public void setPrintOptions(PrintOptions printOptions) {
-        this.printOptions = printOptions;
     }
 }

@@ -60,7 +60,7 @@ public class RouteServiceImpl implements RouteService, BundleActivator {
     /**
      * Use Case: Select Route
      * Creates a route object based on the locations selected by the user.
-     * Triggers a event with the "ROUTE_CREATED_TOPIC" topic once the route is created.
+     * Triggers an event with the "ROUTE_CREATED_TOPIC" topic once the route is created.
      */
     public void selectRoute() {
 
