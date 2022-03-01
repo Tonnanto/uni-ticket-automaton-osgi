@@ -31,9 +31,9 @@ public class PricingServiceTest {
         double cheapTravelPrice = new Price(pricable, PriceRate.CHEAP_TRAVEL).calculatePrice();
         double bargainPrice = new Price(pricable, PriceRate.BARGAIN).calculatePrice();
 
-        Assertions.assertEquals(pricable.getAmount() * 1.45, normalPrice);
-        Assertions.assertEquals(pricable.getAmount() * 1.45 * 0.75, cheapTravelPrice);
-        Assertions.assertEquals(pricable.getAmount() * 1.45 * 0.5, bargainPrice);
+        Assertions.assertEquals(pricable.getAmount() * 0.03 * 1.45, normalPrice);
+        Assertions.assertEquals(pricable.getAmount() * 0.03 * 1.45 * 0.75, cheapTravelPrice);
+        Assertions.assertEquals(pricable.getAmount() * 0.03 * 1.45 * 0.5, bargainPrice);
     }
 
 }

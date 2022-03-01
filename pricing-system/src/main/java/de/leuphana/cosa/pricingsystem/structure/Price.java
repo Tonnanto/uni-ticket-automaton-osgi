@@ -18,6 +18,6 @@ public class Price {
     }
 
     public double calculatePrice() {
-        return pricable.getAmount() * 1.45 * priceRate.priceMultiplier();
+        return pricable.getAmount() * 0.03 * 1.45 * priceRate.priceMultiplier();
     }
 }
