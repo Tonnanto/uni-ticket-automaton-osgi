@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="LOG_PATTERN">
+            %d{yyyy-MM-dd HH:mm:ss} - %p: %m%n
+        </Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="Orders" filename="test-logs/orders.log"
+                     filePattern="$${date:yyyy-MM}/orders-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>${LOG_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+            </Policies>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="info">
+            <AppenderRef ref="Orders"/>
+        </Root>
+    </Loggers>
+</Configuration>

@@ -153,9 +153,6 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 
     @Override
     public void handleEvent(Event event) {
-        System.out.println("Event received: " + event.getTopic());
-        System.out.println("Properties: " + Arrays.toString(event.getPropertyNames()));
-
         switch (event.getTopic()) {
             case RouteService.ROUTE_CREATED_TOPIC:
                 routeToPricableAdapter.onRouteCreated(event);
@@ -171,31 +168,11 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
                 break;
 
             case PrintingService.PRINT_REPORT_CREATED_TOPIC:
-                // TODO: delegate to adapter
+                printReportToSendableAdapter.onPrintReportCreated(event);
                 break;
 
             default:
                 break;
         }
     }
-
-//    @Override
-//    public void serviceChanged(ServiceEvent serviceEvent) {
-//        System.out.println("Service changed");
-//        int type = serviceEvent.getType();
-//        switch (type) {
-//            case(ServiceEvent.REGISTERED):
-//                System.out.println("Event: Service registered.");
-//                ServiceReference serviceReference = serviceEvent.getServiceReference();
-//                uiService = (UiService) (bundleContext.getService(serviceReference));
-//                uiService.showPurchaseConfirmation();
-//                break;
-//            case(ServiceEvent.UNREGISTERING):
-//                System.out.println("Event: Service unregistered.");
-//                bundleContext.ungetService(serviceEvent.getServiceReference());
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 }

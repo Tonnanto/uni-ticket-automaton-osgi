@@ -20,7 +20,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 	private ServiceReference<MessagingService> reference;
 	private ServiceRegistration<MessagingService> registration;
 
-	private Logger logger;
+	private static Logger logger = LogManager.getLogger("Orders");
 
 	@Override
 	public void start(BundleContext bundleContext) {
@@ -31,7 +31,6 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 				new Hashtable<String, String>());
 		reference = registration
 				.getReference();
-
 	}
 
 	@Override
@@ -41,6 +40,11 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 	}
 
 	@Override
+	public void logMessage(Sendable sendable) {
+		System.out.println("Logging Sendable...");
+		logger.info(sendable.getContent());
+	}
+
 	public DeliveryReport sendMessage(Sendable sendable) {
 		logger = LogManager.getLogger(this.getClass());
 		

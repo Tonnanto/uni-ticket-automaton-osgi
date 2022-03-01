@@ -66,7 +66,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 
         if (eventAdmin != null) {
             Dictionary<String, Object> content = new Hashtable<>();
-            content.put(PRINT_REPORT_CREATED_TOPIC, printReport);
+            content.put(PRINT_REPORT_KEY, printReport);
             eventAdmin.sendEvent(new Event(PRINT_REPORT_CREATED_TOPIC, content));
         } else {
             System.out.println("EventAdmin not found: Event could not be triggered: " + PRINT_REPORT_CREATED_TOPIC);
