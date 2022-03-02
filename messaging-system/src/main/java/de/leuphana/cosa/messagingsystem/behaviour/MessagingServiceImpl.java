@@ -6,8 +6,6 @@ import de.leuphana.cosa.messagingsystem.structure.Sendable;
 import de.leuphana.cosa.messagingsystem.structure.message.Message;
 import de.leuphana.cosa.messagingsystem.structure.messagingfactory.AbstractMessagingFactory;
 import de.leuphana.cosa.messagingsystem.structure.messagingprotocol.MessagingProtocol;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -20,7 +18,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 	private ServiceReference<MessagingService> reference;
 	private ServiceRegistration<MessagingService> registration;
 
-	private Logger logger;
+//	private Logger logger;
 
 	@Override
 	public void start(BundleContext bundleContext) {
@@ -42,7 +40,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 
 	@Override
 	public DeliveryReport sendMessage(Sendable sendable) {
-		logger = LogManager.getLogger(this.getClass());
+//		logger = LogManager.getLogger(this.getClass());
 		
 		AbstractMessagingFactory abstractMessagingFactory = AbstractMessagingFactory.getFactory(sendable.getMessageType());
 
@@ -53,7 +51,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 		messageProtocol.transfer(message);
 		messageProtocol.close();
 
-		logger.info("Message: " + sendable.getContent() + " transported via " + sendable.getMessageType());
+//		logger.info("Message: " + sendable.getContent() + " transported via " + sendable.getMessageType());
 
 		DeliveryReport deliveryReport = new DeliveryReport();
 		deliveryReport.setSender(sendable.getSender());

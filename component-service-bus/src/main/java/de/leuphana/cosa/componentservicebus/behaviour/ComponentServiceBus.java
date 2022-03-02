@@ -10,19 +10,26 @@ import de.leuphana.cosa.messagingsystem.behaviour.service.MessagingService;
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
 import de.leuphana.cosa.routesystem.behaviour.service.RouteService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.osgi.service.log.LogEntry;
+import org.osgi.service.log.LogListener;
+import org.osgi.service.log.LogReaderService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class ComponentServiceBus implements BundleActivator, EventHandler {
+public class ComponentServiceBus implements BundleActivator, EventHandler, LogListener {
 
     private BundleContext bundleContext;
 
@@ -30,6 +37,9 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     BookingDetailToDocumentableAdapter bookingDetailToDocumentableAdapter;
     DocumentToPrintableAdapter documentToPrintableAdapter;
     PrintReportToSendableAdapter printReportToSendableAdapter;
+
+    ServiceTracker logReaderServiceTracker;
+    private LogReaderService logReaderService;
 
     ServiceTracker routeServiceTracker;
     ServiceTracker pricingServiceTracker;
@@ -49,6 +59,7 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 
         try {
             setUpServiceTracker();
+            setUpLoggingListener();
             startBundles();
             getServices();
             createAdapter();
@@ -56,8 +67,6 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 
             // initiate ticket order process
             routeService.selectRoute();
-
-//            bundleContext.addServiceListener(this, "(objectclass=" + UiService.class.getName() + ")");
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -109,6 +118,11 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         bundleContext.registerService(EventHandler.class.getName(), this, properties);
     }
 
+    private void setUpLoggingListener() {
+        logReaderService = (LogReaderService) logReaderServiceTracker.getService();
+        logReaderService.addLogListener(this);
+    }
+
     private void setUpServiceTracker() {
         routeServiceTracker = new ServiceTracker(bundleContext, RouteService.class.getName(), null);
         pricingServiceTracker = new ServiceTracker(bundleContext, PricingService.class.getName(), null);
@@ -116,39 +130,20 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         printingServiceTracker = new ServiceTracker(bundleContext, PrintingService.class.getName(), null);
         messagingServiceTracker = new ServiceTracker(bundleContext, MessagingService.class.getName(), null);
 
+        logReaderServiceTracker = new ServiceTracker(bundleContext, LogReaderService.class.getName(), null);
+
         routeServiceTracker.open();
         pricingServiceTracker.open();
         documentServiceTracker.open();
         printingServiceTracker.open();
         messagingServiceTracker.open();
+
+        logReaderServiceTracker.open();
     }
 
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
-//        if (uiSystemBundle != null) {
-//            uiSystemBundle.stop();
-//            uiSystemBundle.uninstall();
-//        }
-//        if (routeSystemBundle != null) {
-//            routeSystemBundle.stop();
-//            routeSystemBundle.uninstall();
-//        }
-//        if (pricingSystemBundle != null) {
-//            pricingSystemBundle.stop();
-//            pricingSystemBundle.uninstall();
-//        }
-//        if (documentSystemBundle != null) {
-//            documentSystemBundle.stop();
-//            documentSystemBundle.uninstall();
-//        }
-//        if (printingSystemBundle != null) {
-//            printingSystemBundle.stop();
-//            printingSystemBundle.uninstall();
-//        }
-//        if (messagingSystemBundle != null) {
-//            messagingSystemBundle.stop();
-//            messagingSystemBundle.uninstall();
-//        }
+
     }
 
     @Override
@@ -179,23 +174,21 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         }
     }
 
-//    @Override
-//    public void serviceChanged(ServiceEvent serviceEvent) {
-//        System.out.println("Service changed");
-//        int type = serviceEvent.getType();
-//        switch (type) {
-//            case(ServiceEvent.REGISTERED):
-//                System.out.println("Event: Service registered.");
-//                ServiceReference serviceReference = serviceEvent.getServiceReference();
-//                uiService = (UiService) (bundleContext.getService(serviceReference));
-//                uiService.showPurchaseConfirmation();
-//                break;
-//            case(ServiceEvent.UNREGISTERING):
-//                System.out.println("Event: Service unregistered.");
-//                bundleContext.ungetService(serviceEvent.getServiceReference());
-//                break;
-//            default:
-//                break;
+    @Override
+    public void logged(LogEntry logEntry) {
+        System.out.println("LOG RECEIVED:");
+        System.out.println(logEntry.getMessage());
+
+
+        // TODO: Write logs to file?
+//        try {
+//            FileOutputStream outputStream = new FileOutputStream("orders.log");
+//            byte[] strToBytes = logEntry.getMessage().getBytes();
+//            outputStream.write(strToBytes);
+//
+//            outputStream.close();
+//        } catch (IOException e) {
+//            e.printStackTrace();
 //        }
-//    }
+    }
 }

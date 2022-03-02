@@ -4,14 +4,16 @@ import de.leuphana.cosa.documentsystem.behaviour.service.DocumentService;
 import de.leuphana.cosa.documentsystem.structure.Documentable;
 import de.leuphana.cosa.documentsystem.structure.TicketDocumentTemplate;
 import de.leuphana.cosa.uisystem.structure.SelectionView;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+//import org.apache.logging.log4j.LogManager;
+//import org.apache.logging.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.*;
@@ -21,13 +23,14 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
     private ServiceReference<DocumentService> reference;
     private ServiceRegistration<DocumentService> registration;
     private ServiceTracker eventAdminTracker;
+    private ServiceTracker loggerFactoryTracker;
 
-    private final Logger logger;
+//    private final Logger logger;
     private Map<String, TicketDocumentTemplate> documentMap;
 
 
     public DocumentServiceImpl() {
-        logger = LogManager.getLogger(this.getClass());
+//        logger = LogManager.getRootLogger();//.getLogger(this.getClass());
         documentMap = new HashMap<>();
     }
 
@@ -43,6 +46,23 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
 
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();
+
+        loggerFactoryTracker = new ServiceTracker(bundleContext, LoggerFactory.class.getName(), null);
+        loggerFactoryTracker.open();
+
+
+
+        // TODO test
+        LoggerFactory loggerFactory = (LoggerFactory) loggerFactoryTracker.getService();
+
+        if (loggerFactory != null) {
+            System.out.println("Should Log low");
+            Logger logger = loggerFactory.getLogger(this.getClass());
+            logger.audit("Hamburg -> Berlin (123km) 34.54€ (Tarif bla)");
+        } else {
+            System.out.println("LoggerFactory not found: logger could not be triggered: " + this.getClass());
+        }
+
     }
 
     @Override
@@ -56,8 +76,12 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
 
         // Show overview and get user confirmation
         if (confirmTicket(documentable)) {
+            // Log new Order
+//            logger.info(documentable.getBody());
+
             // Create Ticket
             TicketDocumentTemplate ticketDocumentTemplate = createTicketDocument(documentable);
+
             // Trigger event (DOCUMENT_CREATED_TOPIC)
             EventAdmin eventAdmin = (EventAdmin) eventAdminTracker.getService();
 
