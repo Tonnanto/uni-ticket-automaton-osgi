@@ -9,6 +9,7 @@ import de.leuphana.cosa.messagingsystem.structure.messagingfactory.AbstractMessa
 import de.leuphana.cosa.messagingsystem.structure.messagingprotocol.MessagingProtocol;
 import de.leuphana.cosa.uisystem.structure.SelectionView;
 import de.leuphana.cosa.uisystem.structure.StringView;
+import de.leuphana.cosa.uisystem.structure.View;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.osgi.framework.BundleActivator;
@@ -77,6 +78,12 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                         }
                     };
                     sendable.setReceiver(stringView.readIntInput());
+                    new View() {
+                        @Override
+                        protected String getMessage() {
+                            return "Sending to "+ sendable.getReceiver() +"...";
+                        }
+                    };
                     break;
                 case 2:
                     sendable.setMessageType(MessageType.SMS);
@@ -88,6 +95,12 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                         }
                     };
                     sendable.setReceiver(stringView.readIntInput());
+                    new View() {
+                        @Override
+                        protected String getMessage() {
+                            return "Sending to "+ sendable.getReceiver() +"...";
+                        }
+                    };
                     break;
                 default:
                     break;
