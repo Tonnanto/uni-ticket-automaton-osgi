@@ -78,12 +78,6 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                         }
                     };
                     sendable.setReceiver(stringView.readIntInput());
-                    new View() {
-                        @Override
-                        protected String getMessage() {
-                            return "Sending to "+ sendable.getReceiver() +"...";
-                        }
-                    };
                     break;
                 case 2:
                     sendable.setMessageType(MessageType.SMS);
@@ -95,12 +89,6 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                         }
                     };
                     sendable.setReceiver(stringView.readIntInput());
-                    new View() {
-                        @Override
-                        protected String getMessage() {
-                            return "Sending to "+ sendable.getReceiver() +"...";
-                        }
-                    };
                     break;
                 default:
                     break;
@@ -113,6 +101,13 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
             messageProtocol.open();
             messageProtocol.transfer(message);
             messageProtocol.close();
+
+            new View() {
+                @Override
+                protected String getMessage() {
+                    return "Sending to "+ sendable.getReceiver() +"...";
+                }
+            };
 
             logger.info("Message: " + sendable.getContent() + " transported via " + sendable.getMessageType());
 
