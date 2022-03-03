@@ -8,6 +8,8 @@ import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
 import org.osgi.util.tracker.ServiceTracker;
 
 import java.time.LocalDate;
@@ -21,6 +23,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
     private ServiceReference<PrintingService> reference;
     private ServiceRegistration<PrintingService> registration;
     private ServiceTracker eventAdminTracker;
+    private ServiceTracker loggerFactoryTracker;
 
     private final Set<Printer> printers;
 
@@ -43,6 +46,9 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();
+
+        loggerFactoryTracker = new ServiceTracker(bundleContext, LoggerFactory.class.getName(), null);
+        loggerFactoryTracker.open();
     }
 
     @Override
@@ -54,6 +60,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
     /**
      * Use Case: Print Printable
      * Prints the given Printable and returns a PrintReport
+     * Sends log with printing status
      * Triggers an event with the "PRINT_REPORT_CREATED_TOPIC" topic once the document is printed.
      */
     public void printPrintable(Printable printable) {
@@ -61,7 +68,10 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 		// Trigger printing process
         PrintReport printReport = print(printable);
 
-        // Create PrintReport (timestamp, ticketname, isPrinted)
+        // Log printing status
+        logPrintingStatus(printReport.isPrinted());
+
+        // Trigger event
         EventAdmin eventAdmin = (EventAdmin) eventAdminTracker.getService();
 
         if (eventAdmin != null) {
@@ -70,6 +80,19 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
             eventAdmin.sendEvent(new Event(PRINT_REPORT_CREATED_TOPIC, content));
         } else {
             System.out.println("EventAdmin not found: Event could not be triggered: " + PRINT_REPORT_CREATED_TOPIC);
+        }
+    }
+
+
+    // Sends log to the CSB with printed status (printed successfully / failed to print)
+    private void logPrintingStatus(boolean isPrinted) {
+        LoggerFactory loggerFactory = (LoggerFactory) loggerFactoryTracker.getService();
+
+        if (loggerFactory != null) {
+            Logger logger = loggerFactory.getLogger(this.getClass());
+            logger.audit("; " + (isPrinted ? "isPrinted = TRUE" : "isPrinted = FALSE"));
+        } else {
+            System.out.println("LoggerFactory not found: logger could not be triggered: " + this.getClass());
         }
     }
 
@@ -94,6 +117,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 
 		PrintReport printReport;
 
+        // Create PrintReport (timestamp, ticketname, isPrinted)
 		if (selectedPrinter.print()) {
 			printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), true);
 		} else {

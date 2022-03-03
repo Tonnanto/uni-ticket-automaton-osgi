@@ -10,8 +10,6 @@ import de.leuphana.cosa.messagingsystem.behaviour.service.MessagingService;
 import de.leuphana.cosa.pricingsystem.behaviour.service.PricingService;
 import de.leuphana.cosa.printingsystem.behaviour.service.PrintingService;
 import de.leuphana.cosa.routesystem.behaviour.service.RouteService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.BundleException;
@@ -23,6 +21,7 @@ import org.osgi.service.log.LogListener;
 import org.osgi.service.log.LogReaderService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
@@ -52,6 +51,7 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
     private DocumentService documentService;
     private PrintingService printingService;
     private MessagingService messagingService;
+
 
     @Override
     public void start(BundleContext bundleContext) {
@@ -144,6 +144,8 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
 
+        logReaderService = (LogReaderService) logReaderServiceTracker.getService();
+        logReaderService.removeLogListener(this);
     }
 
     @Override
@@ -176,19 +178,30 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
 
     @Override
     public void logged(LogEntry logEntry) {
-        System.out.println("LOG RECEIVED:");
-        System.out.println(logEntry.getMessage());
 
+        if (logEntry.getException() != null) {
+            System.out.println(logEntry.getException().getMessage());
+            return;
+        }
 
-        // TODO: Write logs to file?
-//        try {
-//            FileOutputStream outputStream = new FileOutputStream("orders.log");
-//            byte[] strToBytes = logEntry.getMessage().getBytes();
-//            outputStream.write(strToBytes);
-//
-//            outputStream.close();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        // Write logs to local file system
+        // TODO: File location?
+        // TODO: Filter relevant logs?
+        try {
+            String filePath = System.getProperty("user.home") + "/Desktop/logs/orders.log";
+
+            // Create file if not existing
+            File yourFile = new File(filePath);
+            yourFile.createNewFile();
+
+            // write log message to file
+            FileOutputStream outputStream = new FileOutputStream(filePath, true);
+            outputStream.write(logEntry.getMessage().getBytes());
+
+            outputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
