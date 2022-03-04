@@ -89,7 +89,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
         LoggerFactory loggerFactory = (LoggerFactory) loggerFactoryTracker.getService();
 
         if (loggerFactory != null) {
-            Logger logger = loggerFactory.getLogger(this.getClass());
+            Logger logger = loggerFactory.getLogger("Orders");
             logger.audit("; " + (isPrinted ? "isPrinted = TRUE" : "isPrinted = FALSE"));
         } else {
             System.out.println("LoggerFactory not found: logger could not be triggered: " + this.getClass());

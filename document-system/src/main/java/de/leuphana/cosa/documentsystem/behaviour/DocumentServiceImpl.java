@@ -96,7 +96,7 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
         LoggerFactory loggerFactory = (LoggerFactory) loggerFactoryTracker.getService();
 
         if (loggerFactory != null) {
-            Logger logger = loggerFactory.getLogger(this.getClass());
+            Logger logger = loggerFactory.getLogger("Orders");
 
             StringBuilder logMessage = new StringBuilder("\n");
             logMessage.append(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()))

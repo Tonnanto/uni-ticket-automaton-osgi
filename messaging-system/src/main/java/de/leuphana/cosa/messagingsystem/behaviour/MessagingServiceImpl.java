@@ -14,6 +14,9 @@ import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
+import org.osgi.service.log.Logger;
+import org.osgi.service.log.LoggerFactory;
+import org.osgi.util.tracker.ServiceTracker;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -24,6 +27,8 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
     private ServiceReference<MessagingService> reference;
     private ServiceRegistration<MessagingService> registration;
 
+    private ServiceTracker loggerFactoryTracker;
+
     @Override
     public void start(BundleContext bundleContext) {
         System.out.println("Registering MessagingService.");
@@ -33,6 +38,9 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                 new Hashtable<String, String>());
         reference = registration
                 .getReference();
+
+        loggerFactoryTracker = new ServiceTracker(bundleContext, LoggerFactory.class.getName(), null);
+        loggerFactoryTracker.open();
 
     }
 
@@ -124,8 +132,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
             view.display();
             messageProtocol.close();
 
-
-            logger.info("Message: " + sendable.getContent() + " transported via " + sendable.getMessageType());
+            logMessageStatus(sendable.getMessageType());
 
             DeliveryReport deliveryReport = new DeliveryReport();
             deliveryReport.setSender(sendable.getSender());
@@ -138,6 +145,27 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 //		}
 
             return deliveryReport;
-        } else return null;
+        } else {
+            logMessageStatus(null);
+            return null;
+        }
+    }
+
+    // Sends log to the CSB with messaging status (Email, SMS, None)
+    private void logMessageStatus(MessageType messageType) {
+        LoggerFactory loggerFactory = (LoggerFactory) loggerFactoryTracker.getService();
+
+        String logMessage = "no message sent";
+        if (messageType == MessageType.EMAIL)
+            logMessage = "Email sent";
+        if (messageType == MessageType.SMS)
+            logMessage = "SMS sent";
+
+        if (loggerFactory != null) {
+            Logger logger = loggerFactory.getLogger("Orders");
+            logger.audit("; " + logMessage);
+        } else {
+            System.out.println("LoggerFactory not found: logger could not be triggered: " + this.getClass());
+        }
     }
 }
