@@ -1,6 +1,8 @@
 package de.leuphana.cosa.uisystem.structure;
 
-import java.util.Scanner;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 /**
  * This View allows the user to enter a String.
@@ -8,7 +10,6 @@ import java.util.Scanner;
  */
 public abstract class StringInputView extends View {
 
-    private final static Character cancelCharacter = 'X';
 
     /**
      * This method displays the view, reads the user input, and returns the string.
@@ -16,7 +17,6 @@ public abstract class StringInputView extends View {
     public String displayStringInput() {
         // display view
         System.out.println(separator);
-//        System.out.printf("[%s] %s\n", cancelCharacter, "Cancel");
         System.out.println(getMessage());
 
         // read user input
@@ -30,32 +30,27 @@ public abstract class StringInputView extends View {
      * @return the selected integer value
      */
     private String readStringInput() {
-        System.out.print(inputPrefix);
-        Scanner scanner = new Scanner(System.in);
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 
-        while (scanner.hasNextLine()) {
+        while (true) {
 
-            String enteredString = scanner.nextLine();
-
-            // Cancel
-//            if (getCancelCommand() != null && enteredString.equalsIgnoreCase(cancelCharacter.toString())) {
-//                getCancelCommand().execute();
-//                break;
-//            }
+            String enteredString = null;
+            try {
+                enteredString = br.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             if (!isValidString(enteredString)) {
                 // input String is not valid
                 System.out.println(getValidationMessage());
-                System.out.print(inputPrefix);
+//                System.out.print(inputPrefix);
                 continue;
             }
 
             // input String is valid
             return enteredString;
         }
-
-        // this return statement should never be reached. null indicates an error
-        return null;
     }
 
     /**

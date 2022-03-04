@@ -123,7 +123,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
             View view = new View() {
                 @Override
                 protected String getMessage() {
-                    return "Sending to "+ sendable.getReceiver() +"...";
+                    return "Sending ...";
                 }
             };
             view.display();
