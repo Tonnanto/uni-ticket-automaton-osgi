@@ -10,8 +10,6 @@ import de.leuphana.cosa.messagingsystem.structure.messagingprotocol.MessagingPro
 import de.leuphana.cosa.uisystem.structure.SelectionView;
 import de.leuphana.cosa.uisystem.structure.StringInputView;
 import de.leuphana.cosa.uisystem.structure.View;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
@@ -25,8 +23,6 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 
     private ServiceReference<MessagingService> reference;
     private ServiceRegistration<MessagingService> registration;
-
-    private Logger logger;
 
     @Override
     public void start(BundleContext bundleContext) {
@@ -46,9 +42,8 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
         registration.unregister();
     }
 
-    @Override
-    public DeliveryReport sendMessage(Sendable sendable) {
-        logger = LogManager.getLogger(this.getClass());
+	@Override
+	public DeliveryReport sendMessage(Sendable sendable) {
 
         SelectionView selectionView = new SelectionView() {
             @Override

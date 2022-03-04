@@ -16,13 +16,19 @@ import org.osgi.framework.BundleException;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventConstants;
 import org.osgi.service.event.EventHandler;
+import org.osgi.service.log.LogEntry;
+import org.osgi.service.log.LogListener;
+import org.osgi.service.log.LogReaderService;
 import org.osgi.util.tracker.ServiceTracker;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
-public class ComponentServiceBus implements BundleActivator, EventHandler {
+public class ComponentServiceBus implements BundleActivator, EventHandler, LogListener {
 
     private BundleContext bundleContext;
 
@@ -30,6 +36,9 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     BookingDetailToDocumentableAdapter bookingDetailToDocumentableAdapter;
     DocumentToPrintableAdapter documentToPrintableAdapter;
     PrintReportToSendableAdapter printReportToSendableAdapter;
+
+    ServiceTracker logReaderServiceTracker;
+    private LogReaderService logReaderService;
 
     ServiceTracker routeServiceTracker;
     ServiceTracker pricingServiceTracker;
@@ -43,12 +52,14 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
     private PrintingService printingService;
     private MessagingService messagingService;
 
+
     @Override
     public void start(BundleContext bundleContext) {
         this.bundleContext = bundleContext;
 
         try {
             setUpServiceTracker();
+            setUpLoggingListener();
             startBundles();
             getServices();
             createAdapter();
@@ -56,8 +67,6 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
 
             // initiate ticket order process
             routeService.selectRoute();
-
-//            bundleContext.addServiceListener(this, "(objectclass=" + UiService.class.getName() + ")");
 
         } catch (Exception exception) {
             exception.printStackTrace();
@@ -109,6 +118,11 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         bundleContext.registerService(EventHandler.class.getName(), this, properties);
     }
 
+    private void setUpLoggingListener() {
+        logReaderService = (LogReaderService) logReaderServiceTracker.getService();
+        logReaderService.addLogListener(this);
+    }
+
     private void setUpServiceTracker() {
         routeServiceTracker = new ServiceTracker(bundleContext, RouteService.class.getName(), null);
         pricingServiceTracker = new ServiceTracker(bundleContext, PricingService.class.getName(), null);
@@ -116,39 +130,22 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         printingServiceTracker = new ServiceTracker(bundleContext, PrintingService.class.getName(), null);
         messagingServiceTracker = new ServiceTracker(bundleContext, MessagingService.class.getName(), null);
 
+        logReaderServiceTracker = new ServiceTracker(bundleContext, LogReaderService.class.getName(), null);
+
         routeServiceTracker.open();
         pricingServiceTracker.open();
         documentServiceTracker.open();
         printingServiceTracker.open();
         messagingServiceTracker.open();
+
+        logReaderServiceTracker.open();
     }
 
     @Override
     public void stop(BundleContext bundleContext) throws Exception {
-//        if (uiSystemBundle != null) {
-//            uiSystemBundle.stop();
-//            uiSystemBundle.uninstall();
-//        }
-//        if (routeSystemBundle != null) {
-//            routeSystemBundle.stop();
-//            routeSystemBundle.uninstall();
-//        }
-//        if (pricingSystemBundle != null) {
-//            pricingSystemBundle.stop();
-//            pricingSystemBundle.uninstall();
-//        }
-//        if (documentSystemBundle != null) {
-//            documentSystemBundle.stop();
-//            documentSystemBundle.uninstall();
-//        }
-//        if (printingSystemBundle != null) {
-//            printingSystemBundle.stop();
-//            printingSystemBundle.uninstall();
-//        }
-//        if (messagingSystemBundle != null) {
-//            messagingSystemBundle.stop();
-//            messagingSystemBundle.uninstall();
-//        }
+
+        logReaderService = (LogReaderService) logReaderServiceTracker.getService();
+        logReaderService.removeLogListener(this);
     }
 
     @Override
@@ -180,23 +177,32 @@ public class ComponentServiceBus implements BundleActivator, EventHandler {
         }
     }
 
-//    @Override
-//    public void serviceChanged(ServiceEvent serviceEvent) {
-//        System.out.println("Service changed");
-//        int type = serviceEvent.getType();
-//        switch (type) {
-//            case(ServiceEvent.REGISTERED):
-//                System.out.println("Event: Service registered.");
-//                ServiceReference serviceReference = serviceEvent.getServiceReference();
-//                uiService = (UiService) (bundleContext.getService(serviceReference));
-//                uiService.showPurchaseConfirmation();
-//                break;
-//            case(ServiceEvent.UNREGISTERING):
-//                System.out.println("Event: Service unregistered.");
-//                bundleContext.ungetService(serviceEvent.getServiceReference());
-//                break;
-//            default:
-//                break;
-//        }
-//    }
+    @Override
+    public void logged(LogEntry logEntry) {
+
+        if (logEntry.getException() != null) {
+            System.out.println(logEntry.getException().getMessage());
+            return;
+        }
+
+        // Write logs to local file system
+        // TODO: File location?
+        // TODO: Filter relevant logs?
+        try {
+            String filePath = System.getProperty("user.home") + "/Desktop/logs/orders.log";
+
+            // Create file if not existing
+            File yourFile = new File(filePath);
+            yourFile.createNewFile();
+
+            // write log message to file
+            FileOutputStream outputStream = new FileOutputStream(filePath, true);
+            outputStream.write(logEntry.getMessage().getBytes());
+
+            outputStream.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

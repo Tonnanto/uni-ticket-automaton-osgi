@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Properties>
+        <Property name="NEW_ORDER_PATTERN">
+            %n%d{yyyy-MM-dd HH:mm:ss} - %p: %m
+        </Property>
+        <Property name="APPEND_PATTERN">
+            %m
+        </Property>
+    </Properties>
+    <Appenders>
+        <RollingFile name="Orders" filename="../logs/orders.log" filePattern="$${date:yyyy-MM}/orders-%d{MM-dd-yyyy}-%i.log">
+            <PatternLayout>
+                <Pattern>${NEW_ORDER_PATTERN}</Pattern>
+            </PatternLayout>
+            <Policies>
+                <SizeBasedTriggeringPolicy size="20MB"/>
+            </Policies>
+        </RollingFile>
+
+        <Console name="STDOUT" target="SYSTEM_OUT">
+            <PatternLayout>
+                <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n"/>
+            </PatternLayout>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Root level="error">
+            <AppenderRef ref="STDOUT"/>
+        </Root>
+    </Loggers>
+</Configuration>
