@@ -120,14 +120,15 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
             MessagingProtocol messageProtocol = abstractMessagingFactory.createMessagingProtocol();
             messageProtocol.open();
             messageProtocol.transfer(message);
-            messageProtocol.close();
-
-            new View() {
+            View view = new View() {
                 @Override
                 protected String getMessage() {
                     return "Sending to "+ sendable.getReceiver() +"...";
                 }
             };
+            view.display();
+            messageProtocol.close();
+
 
             logger.info("Message: " + sendable.getContent() + " transported via " + sendable.getMessageType());
 
