@@ -13,5 +13,25 @@
     "name": "München",
     "latitude": 48.140,
     "longitude": 11.558
+  },
+  {
+    "name": "Lüneburg",
+    "latitude": 53.249,
+    "longitude": 10.419
+  },
+  {
+    "name": "Kiel",
+    "latitude": 54.315,
+    "longitude": 10.132
+  },
+  {
+    "name": "Köln",
+    "latitude": 50.943,
+    "longitude": 6.96
+  },
+  {
+    "name": "Pyongyang",
+    "latitude": 39.005,
+    "longitude": 125.736
   }
 ]
