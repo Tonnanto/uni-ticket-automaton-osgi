@@ -8,7 +8,7 @@ import de.leuphana.cosa.messagingsystem.structure.message.Message;
 import de.leuphana.cosa.messagingsystem.structure.messagingfactory.AbstractMessagingFactory;
 import de.leuphana.cosa.messagingsystem.structure.messagingprotocol.MessagingProtocol;
 import de.leuphana.cosa.uisystem.structure.SelectionView;
-import de.leuphana.cosa.uisystem.structure.StringView;
+import de.leuphana.cosa.uisystem.structure.StringInputView;
 import de.leuphana.cosa.uisystem.structure.View;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -71,24 +71,44 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                 case 1:
                     sendable.setMessageType(MessageType.EMAIL);
                     sendable.setSender("ticket@automat.de");
-                    StringView stringView = new StringView() {
+                    StringInputView stringView = new StringInputView() {
                         @Override
                         protected String getMessage() {
-                            return "Geben Sie ihre E-Mail Addresse ein: ";
+                            return "Geben Sie ihre E-Mail Adresse ein: ";
+                        }
+
+                        @Override
+                        protected boolean isValidString(String s) {
+                            return super.isValidString(s); // TODO: email validation?
+                        }
+
+                        @Override
+                        protected String getValidationMessage() {
+                            return "Bitte geben Sie eine gültige Email Adresse ein";
                         }
                     };
-                    sendable.setReceiver(stringView.readIntInput());
+                    sendable.setReceiver(stringView.displayStringInput());
                     break;
                 case 2:
                     sendable.setMessageType(MessageType.SMS);
                     sendable.setSender("0152242069");
-                    stringView = new StringView() {
+                    stringView = new StringInputView() {
                         @Override
                         protected String getMessage() {
                             return "Geben Sie ihre Handynummer ein: ";
                         }
+
+                        @Override
+                        protected boolean isValidString(String s) {
+                            return super.isValidString(s); // TODO: email validation?
+                        }
+
+                        @Override
+                        protected String getValidationMessage() {
+                            return "Bitte geben Sie eine gültige Handynummer ein";
+                        }
                     };
-                    sendable.setReceiver(stringView.readIntInput());
+                    sendable.setReceiver(stringView.displayStringInput());
                     break;
                 default:
                     break;
