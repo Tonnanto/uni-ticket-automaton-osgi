@@ -20,7 +20,6 @@ import org.osgi.service.log.Logger;
 import org.osgi.service.log.LoggerFactory;
 import org.osgi.util.tracker.ServiceTracker;
 
-import java.beans.beancontext.BeanContextServiceProvider;
 import java.util.ArrayList;
 import java.util.Dictionary;
 import java.util.Hashtable;
@@ -32,7 +31,6 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
     private ServiceRegistration<MessagingService> registration;
 
     private ServiceTracker loggerFactoryTracker;
-    private Sendable sendable;
     private ServiceTracker eventAdminTracker;
 
     @Override
@@ -61,11 +59,14 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
 
     @Override
     public DeliveryReport sendMessage(Sendable sendable) {
-        this.sendable = sendable;
-        selectMessageType();
-        if (sendable.getMessageType() == null) {
-            AbstractMessagingFactory abstractMessagingFactory = AbstractMessagingFactory.getFactory(sendable.getMessageType());
-            Message message = abstractMessagingFactory.createMessage(sendable.getSender(), sendable.getReceiver(), sendable.getContent());
+
+        MessageType messageType = selectMessageType();
+        String receiver = enterReceiver(messageType);
+        String sender = messageType == MessageType.SMS ? "0152242069" : "ticket@automat.de";
+
+        if (messageType != null) {
+            AbstractMessagingFactory abstractMessagingFactory = AbstractMessagingFactory.getFactory(messageType);
+            Message message = abstractMessagingFactory.createMessage(sender, receiver, sendable.getContent());
             MessagingProtocol messageProtocol = abstractMessagingFactory.createMessagingProtocol();
             messageProtocol.open();
             messageProtocol.transfer(message);
@@ -78,17 +79,14 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
             view.display();
             messageProtocol.close();
 
-            logMessageStatus(sendable.getMessageType());
+            logMessageStatus(messageType);
 
             DeliveryReport deliveryReport = new DeliveryReport();
-            deliveryReport.setSender(sendable.getSender());
-            deliveryReport.setReceiver(sendable.getReceiver());
+            deliveryReport.setSender(sender);
+            deliveryReport.setReceiver(receiver);
             deliveryReport.setContent(sendable.getContent());
-            deliveryReport.setMessageType(sendable.getMessageType().toString());
+            deliveryReport.setMessageType(messageType.toString());
 
-//		for (MessagingEventListener listener: listeners) {
-//			listener.onMessageSent(new MessagingEvent(deliveryReport));
-//		}
             triggerEvent(deliveryReport);
             return deliveryReport;
         } else {
@@ -117,7 +115,7 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
         }
     }
 
-    private void selectMessageType() {
+    private MessageType selectMessageType() {
         SelectionView selectionView = new SelectionView() {
             @Override
             protected List<String> getOptions() {
@@ -133,53 +131,59 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                 return "Möchten Sie eine Quittung zugestellt bekommen?";
             }
         };
+
         int selectedIndex = selectionView.displaySelection();
-        switch (selectedIndex) {
-            case 1:
-                sendable.setMessageType(MessageType.EMAIL);
-                sendable.setSender("ticket@automat.de");
-                StringInputView stringView = new StringInputView() {
-                    @Override
-                    protected String getMessage() {
-                        return "Geben Sie ihre E-Mail Adresse ein: ";
-                    }
 
-                    @Override
-                    protected boolean isValidString(String s) {
-                        return s.contains("@") && s.contains(".");
-                    }
+        if (selectedIndex == 1)
+            return MessageType.EMAIL;
+        if (selectedIndex == 2)
+            return MessageType.SMS;
+        return null;
+    }
 
-                    @Override
-                    protected String getValidationMessage() {
-                        return "Bitte geben Sie eine gültige Email Adresse ein";
-                    }
-                };
-                sendable.setReceiver(stringView.displayStringInput());
-                break;
-            case 2:
-                sendable.setMessageType(MessageType.SMS);
-                sendable.setSender("0152242069");
-                stringView = new StringInputView() {
-                    @Override
-                    protected String getMessage() {
-                        return "Geben Sie ihre Handynummer ein: ";
-                    }
+    private String enterReceiver(MessageType messageType) {
+        if (messageType == null) return null;
 
-                    @Override
-                    protected boolean isValidString(String s) {
-                        return s.matches("[0-9]+");
-                    }
+        StringInputView view = null;
+        if (messageType == MessageType.EMAIL) {
+            view = new StringInputView() {
+                @Override
+                protected String getMessage() {
+                    return "Geben Sie ihre E-Mail Adresse ein: ";
+                }
 
-                    @Override
-                    protected String getValidationMessage() {
-                        return "Bitte geben Sie eine gültige Handynummer ein";
-                    }
-                };
-                sendable.setReceiver(stringView.displayStringInput());
-                break;
-            default:
-                break;
+                @Override
+                protected boolean isValidString(String s) {
+                    return s.contains("@") && s.contains(".");
+                }
+
+                @Override
+                protected String getValidationMessage() {
+                    return "Bitte geben Sie eine gültige Email Adresse ein";
+                }
+            };
+
+        } else if (messageType == MessageType.SMS) {
+            view = new StringInputView() {
+                @Override
+                protected String getMessage() {
+                    return "Geben Sie ihre Handynummer ein: ";
+                }
+
+                @Override
+                protected boolean isValidString(String s) {
+                    return s.matches("[0-9]+");
+                }
+
+                @Override
+                protected String getValidationMessage() {
+                    return "Bitte geben Sie eine gültige Handynummer ein";
+                }
+            };
         }
+
+        if (view == null) return null;
+        return view.displayStringInput();
     }
 
     public void triggerEvent(DeliveryReport deliveryReport) {
@@ -188,9 +192,9 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
         if (eventAdmin != null) {
             Dictionary<String, Object> content = new Hashtable<>();
             content.put(MESSAGING_KEY, deliveryReport);
-            eventAdmin.sendEvent(new Event(MESSAGE_SEND, content));
+            eventAdmin.sendEvent(new Event(MESSAGE_SENT_TOPIC, content));
         } else {
-            System.out.println("EventAdmin not found: Event could not be triggered: " + MESSAGE_SEND);
+            System.out.println("EventAdmin not found: Event could not be triggered: " + MESSAGE_SENT_TOPIC);
         }
     }
 }

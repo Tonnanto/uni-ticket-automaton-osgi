@@ -114,7 +114,7 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
                 PricingService.PRICE_DETERMINED_TOPIC,
                 DocumentService.DOCUMENT_CREATED_TOPIC,
                 PrintingService.PRINT_REPORT_CREATED_TOPIC,
-                MessagingService.MESSAGE_SEND
+                MessagingService.MESSAGE_SENT_TOPIC
         });
         bundleContext.registerService(EventHandler.class.getName(), this, properties);
     }
@@ -173,7 +173,7 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
                 printReportToSendableAdapter.onPrintReportCreated(event);
                 break;
 
-            case MessagingService.MESSAGE_SEND:
+            case MessagingService.MESSAGE_SENT_TOPIC:
                 break;
 
             default:
