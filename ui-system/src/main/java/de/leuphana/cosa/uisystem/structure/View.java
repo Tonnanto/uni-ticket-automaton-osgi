@@ -8,7 +8,6 @@ package de.leuphana.cosa.uisystem.structure;
 public abstract class View {
 
     protected final static String separator = "\n----------------------------------------------------";
-    protected final static String inputPrefix = ">>> ";
 
     /**
      * @return the message that will be displayed to the user

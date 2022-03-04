@@ -46,6 +46,11 @@
 <!--      <groupId>org.apache.logging.log4j</groupId>-->
 <!--      <artifactId>log4j-api</artifactId>-->
 <!--    </dependency>-->
+      <dependency>
+          <groupId>de.leuphana.cosa</groupId>
+          <artifactId>ui-system</artifactId>
+          <scope>compile</scope>
+      </dependency>
   </dependencies>
 
   <build>
