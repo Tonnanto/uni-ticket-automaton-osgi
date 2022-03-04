@@ -188,9 +188,8 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
         if (!logEntry.getLoggerName().equals("Orders")) return;
 
         // Write logs to local file system
-        // TODO: File location?
         try {
-            String filePath = System.getProperty("user.home") + "/Desktop/logs/orders.log";
+            String filePath = System.getProperty("user.home") + "/Desktop/orders.log";
 
             // Create file if not existing
             File yourFile = new File(filePath);
