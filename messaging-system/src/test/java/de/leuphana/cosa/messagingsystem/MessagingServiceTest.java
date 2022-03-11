@@ -18,7 +18,6 @@
 //		messagingService = new MessagingServiceImpl();
 //
 //		sendable = new Sendable();
-//		sendable.setSender("rainer.zufall@web.de");
 //		sendable.setReceiver("slotos@leuphana.de");
 //		sendable.setContent("This is a message");
 //	}
@@ -41,3 +40,4 @@
 //	}
 //
 //}
+// TODO: 11.03.2022 keine Methode ohne Userinputs. Komponente umschreiben?

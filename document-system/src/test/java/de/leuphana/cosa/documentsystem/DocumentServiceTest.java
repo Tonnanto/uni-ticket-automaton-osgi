@@ -26,7 +26,7 @@ class DocumentServiceTest {
 	}
 
 	@Test
-	void canNormalTicketDocumentBeCreatedTest() {
+	void canTicketDocumentBeCreatedTest() {
 
 		Locale locale = new Locale("de", "DE");
 		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
