@@ -1,8 +1,8 @@
 package de.leuphana.cosa.pricingsystem.structure;
 
 public class Price {
-    private Pricable pricable;
-    private PriceRate priceRate;
+    private final Pricable pricable;
+    private final PriceRate priceRate;
 
     public Price(Pricable pricable, PriceRate priceRate) {
         this.pricable = pricable;

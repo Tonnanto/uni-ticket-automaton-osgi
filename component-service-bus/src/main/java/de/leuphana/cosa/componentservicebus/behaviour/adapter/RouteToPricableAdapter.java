@@ -8,7 +8,7 @@ import de.leuphana.cosa.routesystem.structure.Route;
 import org.osgi.service.event.Event;
 
 public class RouteToPricableAdapter {
-    PricingService pricingService;
+    private final PricingService pricingService;
 
     public RouteToPricableAdapter(PricingService pricingService) {
         this.pricingService = pricingService;

@@ -33,16 +33,8 @@ public abstract class SelectionView extends View {
 
         // execute command
         return inputInteger - 1;
-//        getFilteredCommands().get(inputInteger - 1).execute();
     }
 
-//    /**
-//     * Override this method to decide which commands should be available to the user when this view gets displayed.
-//     * Add null to the list to add an empty line between commands.
-//     *
-//     * @return the list of commands that the view will display
-//     */
-//    protected abstract List<Command> getCommands();
     protected abstract List<String> getOptions();
 
     /**
@@ -60,7 +52,6 @@ public abstract class SelectionView extends View {
             if (!scanner.hasNextInt()) {
                 // input is not a number
                 System.out.println("Bitte geben Sie eine Zahl zwischen 1 und " + optionCount + " ein");
-//                System.out.print(inputPrefix);
                 scanner.next();
                 continue;
             }
@@ -70,7 +61,6 @@ public abstract class SelectionView extends View {
             if (enteredNumber <= 0 || enteredNumber > optionCount) {
                 // input number is out of valid range
                 System.out.println("Bitte geben Sie eine Zahl zwischen 1 und " + optionCount + " ein");
-//                System.out.print(inputPrefix);
                 continue;
             }
 
@@ -81,11 +71,4 @@ public abstract class SelectionView extends View {
         // this return statement should never be reached. -1 indicates an error
         return -1;
     }
-
-//    /**
-//     * Filters null Objects from getCommands()
-//     */
-//    private List<Command> getFilteredCommands() {
-//        return getCommands().stream().filter(Objects::nonNull).collect(Collectors.toList());
-//    }
 }

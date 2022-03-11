@@ -9,7 +9,7 @@ import org.osgi.service.event.Event;
 import java.util.List;
 
 public class DocumentToPrintableAdapter {
-    PrintingService printingService;
+    private final PrintingService printingService;
 
     public DocumentToPrintableAdapter(PrintingService printingService) {
         this.printingService = printingService;

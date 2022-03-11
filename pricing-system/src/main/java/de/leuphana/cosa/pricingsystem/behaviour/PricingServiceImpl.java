@@ -21,7 +21,6 @@ import java.util.stream.Collectors;
 
 public class PricingServiceImpl implements PricingService, BundleActivator {
 
-    private ServiceReference<PricingService> reference;
     private ServiceRegistration<PricingService> registration;
     private ServiceTracker eventAdminTracker;
 
@@ -32,8 +31,6 @@ public class PricingServiceImpl implements PricingService, BundleActivator {
                 PricingService.class,
                 this,
                 new Hashtable<String, String>());
-        reference = registration
-                .getReference();
 
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();

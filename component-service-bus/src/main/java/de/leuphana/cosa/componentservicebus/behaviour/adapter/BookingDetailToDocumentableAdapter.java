@@ -15,7 +15,7 @@ import java.util.UUID;
 
 public class BookingDetailToDocumentableAdapter {
 
-    DocumentService documentService;
+    private final DocumentService documentService;
     private Price price;
     private Route route;
 

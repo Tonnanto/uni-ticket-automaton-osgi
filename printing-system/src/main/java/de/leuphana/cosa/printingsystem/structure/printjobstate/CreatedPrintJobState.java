@@ -10,15 +10,11 @@ public class CreatedPrintJobState extends PrintJobState {
 
 	@Override
 	public PrintJobState changePrintJobState(PrintAction printAction) {
-		
-		// TODO check precondition "printer available"
-		switch (printAction) {
-		case QUEUE: {
+
+		if (printAction == PrintAction.QUEUE) {
 			return new QueuedPrintJobState(printJob);
 		}
-		default:
-			throw new IllegalArgumentException("Unexpected value: " + printAction);
-		}
+		throw new IllegalArgumentException("Unexpected value: " + printAction);
 	}
 
 }

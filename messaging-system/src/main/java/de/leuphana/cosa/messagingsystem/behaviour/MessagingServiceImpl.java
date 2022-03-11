@@ -27,7 +27,6 @@ import java.util.List;
 
 public class MessagingServiceImpl implements MessagingService, BundleActivator {
 
-    private ServiceReference<MessagingService> reference;
     private ServiceRegistration<MessagingService> registration;
 
     private ServiceTracker loggerFactoryTracker;
@@ -40,9 +39,6 @@ public class MessagingServiceImpl implements MessagingService, BundleActivator {
                 MessagingService.class,
                 this,
                 new Hashtable<String, String>());
-        reference = registration
-                .getReference();
-
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();
 

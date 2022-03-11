@@ -1,10 +1,11 @@
 package de.leuphana.cosa.printingsystem;
 
 import de.leuphana.cosa.printingsystem.behaviour.PrintingServiceImpl;
-import de.leuphana.cosa.printingsystem.structure.PrintOptions;
 import de.leuphana.cosa.printingsystem.structure.Printable;
-import de.leuphana.cosa.printingsystem.structure.UserAccount;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +14,10 @@ class PrintingServiceTest {
 
 	private Printable printable;
 	private PrintingServiceImpl printingSystem;
-	private PrintOptions printOptions;
-	private UserAccount userAccount;
 
 	@BeforeEach
 	void setUp() {
 		printingSystem = new PrintingServiceImpl();
-		printOptions = new PrintOptions();
-		userAccount = new UserAccount();
 		printable = new Printable() {
 			@Override
 			public String getTitle() {

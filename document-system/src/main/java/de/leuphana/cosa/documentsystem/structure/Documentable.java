@@ -1,10 +1,10 @@
 package de.leuphana.cosa.documentsystem.structure;
 
 public class Documentable {
-    private String name;
-    private String header;
-    private String body;
-    private String footer;
+    private final String name;
+    private final String header;
+    private final String body;
+    private final String footer;
 
     public Documentable(String name, String header, String body, String footer) {
         this.name = name;

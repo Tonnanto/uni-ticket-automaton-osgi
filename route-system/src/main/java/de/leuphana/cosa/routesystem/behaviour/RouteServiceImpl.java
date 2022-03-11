@@ -23,7 +23,6 @@ import java.util.stream.Collectors;
 
 public class RouteServiceImpl implements RouteService, BundleActivator {
 
-    private ServiceReference<RouteService> reference;
     private ServiceRegistration<RouteService> registration;
     private ServiceTracker eventAdminTracker;
 
@@ -44,7 +43,6 @@ public class RouteServiceImpl implements RouteService, BundleActivator {
                 RouteService.class,
                 this,
                 new Hashtable<String, String>());
-        reference = registration.getReference();
 
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();

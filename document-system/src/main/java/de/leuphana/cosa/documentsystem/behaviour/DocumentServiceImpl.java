@@ -6,7 +6,6 @@ import de.leuphana.cosa.documentsystem.structure.TicketDocumentTemplate;
 import de.leuphana.cosa.uisystem.structure.SelectionView;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
-import org.osgi.framework.ServiceReference;
 import org.osgi.framework.ServiceRegistration;
 import org.osgi.service.event.Event;
 import org.osgi.service.event.EventAdmin;
@@ -19,16 +18,11 @@ import java.util.*;
 
 public class DocumentServiceImpl implements DocumentService, BundleActivator {
 
-    private ServiceReference<DocumentService> reference;
     private ServiceRegistration<DocumentService> registration;
     private ServiceTracker eventAdminTracker;
     private ServiceTracker loggerFactoryTracker;
 
-    private Map<String, TicketDocumentTemplate> documentMap;
-
-
     public DocumentServiceImpl() {
-        documentMap = new HashMap<>();
     }
 
     @Override
@@ -38,8 +32,6 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
                 DocumentService.class,
                 this,
                 new Hashtable<String, String>());
-        reference = registration
-                .getReference();
 
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();
@@ -98,21 +90,14 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
         if (loggerFactory != null) {
             Logger logger = loggerFactory.getLogger("Orders");
 
-            StringBuilder logMessage = new StringBuilder("\n");
-            logMessage.append(new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()))
-                    .append(" - ").append(documentable.getName()).append("; ")
-                    .append(documentable.getBody().replace("\n", "; "));
-
-            logger.audit(logMessage.toString());
+            String logMessage = "\n" + new SimpleDateFormat("MM/dd/yyyy HH:mm:ss").format(new Date()) +
+                    " - " + documentable.getName() + "; " +
+                    documentable.getBody().replace("\n", "; ");
+            logger.audit(logMessage);
         } else {
             System.out.println("LoggerFactory not found: logger could not be triggered: " + this.getClass());
         }
     }
-
-    public TicketDocumentTemplate getDocument(String documentName) {
-        return documentMap.get(documentName);
-    }
-
 
     private boolean confirmTicket(Documentable documentable) {
         SelectionView selectionView = new SelectionView() {

@@ -10,7 +10,7 @@ import org.osgi.framework.BundleContext;
 import org.osgi.service.event.Event;
 
 public class PrintReportToSendableAdapter {
-    MessagingService messagingService;
+    private final MessagingService messagingService;
     private TicketDocumentTemplate ticketDocument;
 
     public PrintReportToSendableAdapter(MessagingService messagingService) {

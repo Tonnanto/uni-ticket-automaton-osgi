@@ -20,7 +20,6 @@ import java.util.Set;
 
 public class PrintingServiceImpl implements PrintingService, BundleActivator {
 
-    private ServiceReference<PrintingService> reference;
     private ServiceRegistration<PrintingService> registration;
     private ServiceTracker eventAdminTracker;
     private ServiceTracker loggerFactoryTracker;
@@ -41,8 +40,6 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
                 PrintingService.class,
                 this,
                 new Hashtable<String, String>());
-        reference = registration
-                .getReference();
 
         eventAdminTracker = new ServiceTracker(bundleContext, EventAdmin.class.getName(), null);
         eventAdminTracker.open();

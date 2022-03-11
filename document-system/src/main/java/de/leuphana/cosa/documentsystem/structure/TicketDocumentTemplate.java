@@ -1,7 +1,7 @@
 package de.leuphana.cosa.documentsystem.structure;
 
 public class TicketDocumentTemplate {
-    String document;
+    final String document;
     String name;
 
     public TicketDocumentTemplate(Documentable documentable) {
