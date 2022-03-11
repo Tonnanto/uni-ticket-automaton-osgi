@@ -12,12 +12,12 @@
 
 ## TODO:
 - code clean up
-    - remove behaviour package of ui-system
     - clean up pom.xmls
-    - remove logging directories from message-system
     
 - unit tests
 
 - component diagram
 
 - osgi application ausführen ohne karaf?
+
+document, printing, messaging -> jonas

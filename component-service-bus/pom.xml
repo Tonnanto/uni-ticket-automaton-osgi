@@ -103,7 +103,54 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>filter</id>
+                        <phase>generate-resources</phase>
+                        <goals>
+                            <goal>resources</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/classes/features.xml</file>
+                                    <type>xml</type>
+                                    <classifier>features</classifier>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -123,21 +170,9 @@
                         </Bundle-Activator>
                         <Private-Package>
                             de.leuphana.cosa.componentservicebus.behaviour,
-<!--                            de.leuphana.cosa.uisystem.*,-->
-<!--                            de.leuphana.cosa.routesystem.*,-->
-<!--                            de.leuphana.cosa.pricingsystem.*,-->
-<!--                            de.leuphana.cosa.documentsystem.*,-->
-<!--                            de.leuphana.cosa.printingsystem.*,-->
-<!--                            de.leuphana.cosa.messagingsystem.*-->
                         </Private-Package>
                         <Export-Package>
                             de.leuphana.cosa.componentservicebus.behaviour.*,
-<!--                            de.leuphana.cosa.uisystem.*,-->
-<!--                            de.leuphana.cosa.routesystem.behaviour.service.*,-->
-<!--                            de.leuphana.cosa.pricingsystem.behaviour.service.*,-->
-<!--                            de.leuphana.cosa.documentsystem.*,-->
-<!--                            de.leuphana.cosa.printingsystem.behaviour.service.*,-->
-<!--                            de.leuphana.cosa.messagingsystem.behaviour.service.*-->
                         </Export-Package>
                         <Embed-Dependency>
                             jackson-core,
@@ -149,5 +184,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>

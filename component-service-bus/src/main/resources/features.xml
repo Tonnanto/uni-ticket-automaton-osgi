@@ -1,0 +1,11 @@
+<features name="features-repo" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+    <feature name="ticket-automaton" version="1.0.0">
+        <bundle>mvn:de.leuphana.cosa/ui-system/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:de.leuphana.cosa/document-system/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:de.leuphana.cosa/printing-system/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:de.leuphana.cosa/messaging-system/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:de.leuphana.cosa/route-system/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:de.leuphana.cosa/pricing-system/1.0-SNAPSHOT</bundle>
+        <bundle>mvn:de.leuphana.cosa/component-service-bus/1.0-SNAPSHOT</bundle>
+    </feature>
+</features>

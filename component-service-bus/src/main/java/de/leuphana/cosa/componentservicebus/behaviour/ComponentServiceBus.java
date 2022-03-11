@@ -151,8 +151,6 @@ public class ComponentServiceBus implements BundleActivator, EventHandler, LogLi
 
     @Override
     public void handleEvent(Event event) {
-        System.out.println("Event received: " + event.getTopic());
-        System.out.println("Properties: " + Arrays.toString(event.getPropertyNames()));
 
         switch (event.getTopic()) {
             case RouteService.ROUTE_CREATED_TOPIC:

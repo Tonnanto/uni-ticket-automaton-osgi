@@ -50,7 +50,7 @@
             <Bundle-Name>${project.name}</Bundle-Name>
             <Bundle-Version>${project.version}</Bundle-Version>
             <Bundle-Activator>
-              de.leuphana.cosa.uisystem.behaviour.UiServiceImpl
+              de.leuphana.cosa.uisystem.behaviour.UiService
             </Bundle-Activator>
             <Private-Package>
               de.leuphana.cosa.uisystem.*

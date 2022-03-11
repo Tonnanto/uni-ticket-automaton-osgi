@@ -56,8 +56,6 @@ public class BookingDetailToDocumentableAdapter {
 
         Documentable documentable = new Documentable(name, header, body, footer);
 
-        System.out.println(documentable);
-
         documentService.createDocument(documentable);
     }
 }
