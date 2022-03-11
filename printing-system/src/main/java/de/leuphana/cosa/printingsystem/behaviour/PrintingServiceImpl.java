@@ -19,11 +19,10 @@ import java.util.Set;
 
 public class PrintingServiceImpl implements PrintingService, BundleActivator {
 
+    private final Set<Printer> printers;
     private ServiceRegistration<PrintingService> registration;
     private ServiceTracker eventAdminTracker;
     private ServiceTracker loggerFactoryTracker;
-
-    private final Set<Printer> printers;
 
     public PrintingServiceImpl() {
         printers = new HashSet<>();
@@ -61,7 +60,7 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
      */
     public void printPrintable(Printable printable) {
 
-		// Trigger printing process
+        // Trigger printing process
         PrintReport printReport = print(printable);
 
         // Log printing status
@@ -94,32 +93,33 @@ public class PrintingServiceImpl implements PrintingService, BundleActivator {
 
     /**
      * Creates a PrintJob and hands it to the selected printer
+     *
      * @param printable the Printable to print
      * @return the created PrintReport
      */
-	public PrintReport print(Printable printable) {
+    public PrintReport print(Printable printable) {
 
-		PrintJob printJob = new PrintJob(printable);
-		// Suche des richtigen Druckers (simuliert)
-		Printer selectedPrinter = null;
-		for (Printer printer : printers) {
-			// if( ) {
-			selectedPrinter = printer;
-			// }
-		}
+        PrintJob printJob = new PrintJob(printable);
+        // Suche des richtigen Druckers (simuliert)
+        Printer selectedPrinter = null;
+        for (Printer printer : printers) {
+            // if( ) {
+            selectedPrinter = printer;
+            // }
+        }
 
-		assert selectedPrinter != null;
-		selectedPrinter.addPrintJob(printJob);
+        assert selectedPrinter != null;
+        selectedPrinter.addPrintJob(printJob);
 
-		PrintReport printReport;
+        PrintReport printReport;
 
         // Create PrintReport (timestamp, ticketname, isPrinted)
-		if (selectedPrinter.print()) {
-			printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), true);
-		} else {
+        if (selectedPrinter.print()) {
+            printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), true);
+        } else {
             printReport = new PrintReport(LocalDate.now().toString(), printable.getTitle(), false);
         }
 
-		return printReport;
-	}
+        return printReport;
+    }
 }

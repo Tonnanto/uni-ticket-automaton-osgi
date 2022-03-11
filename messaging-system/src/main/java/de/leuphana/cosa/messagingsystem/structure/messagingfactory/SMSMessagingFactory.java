@@ -8,13 +8,13 @@ import de.leuphana.cosa.messagingsystem.structure.messagingprotocol.MessagingPro
 
 public class SMSMessagingFactory extends AbstractMessagingFactory {
 
-	@Override
-	public MessagingProtocol createMessagingProtocol() {
-		return MessagingProtocolFactory.createMessagingProtocol(MessageType.SMS);
-	}
+    @Override
+    public MessagingProtocol createMessagingProtocol() {
+        return MessagingProtocolFactory.createMessagingProtocol(MessageType.SMS);
+    }
 
-	@Override
-	public Message createMessage(String sender, String receiver, String contentAsString) {
-		return MessageBuilder.createMessage(receiver, sender, contentAsString, MessageType.SMS);
-	}
+    @Override
+    public Message createMessage(String sender, String receiver, String contentAsString) {
+        return MessageBuilder.createMessage(receiver, sender, contentAsString, MessageType.SMS);
+    }
 }

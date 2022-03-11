@@ -4,12 +4,12 @@ import de.leuphana.cosa.printingsystem.structure.PrintJob;
 
 public class PrintedPrintJobState extends PrintJobState {
 
-	public PrintedPrintJobState(PrintJob printJob) {
-		super(printJob);
-	}
+    public PrintedPrintJobState(PrintJob printJob) {
+        super(printJob);
+    }
 
-	@Override
-	public PrintJobState changePrintJobState(PrintAction printAction) {
-		return null;
-	}
+    @Override
+    public PrintJobState changePrintJobState(PrintAction printAction) {
+        return null;
+    }
 }

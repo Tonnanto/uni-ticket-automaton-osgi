@@ -14,29 +14,29 @@ import java.util.Locale;
 
 class DocumentServiceTest {
 
-	private DocumentServiceImpl documentSystem;
+    private DocumentServiceImpl documentSystem;
 
-	@BeforeEach
-	void setUp() {
-		documentSystem = new DocumentServiceImpl();
-	}
+    @BeforeEach
+    void setUp() {
+        documentSystem = new DocumentServiceImpl();
+    }
 
-	@AfterEach
-	void tearDown() {
-	}
+    @AfterEach
+    void tearDown() {
+    }
 
-	@Test
-	void canTicketDocumentBeCreatedTest() {
+    @Test
+    void canTicketDocumentBeCreatedTest() {
 
-		Locale locale = new Locale("de", "DE");
-		DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
+        Locale locale = new Locale("de", "DE");
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.FULL, locale);
 
-		Documentable documentable = new Documentable("Name", dateFormat.format(new Date()), "Hamburg -> Berlin (248km)\n" +
-				"360,41€ (Normal-Tarif)", "Wir wünschen Ihnen eine\n" +
-				"schöne Reise!");
+        Documentable documentable = new Documentable("Name", dateFormat.format(new Date()), "Hamburg -> Berlin (248km)\n" +
+                "360,41€ (Normal-Tarif)", "Wir wünschen Ihnen eine\n" +
+                "schöne Reise!");
 
-		TicketDocumentTemplate document = documentSystem.createTicketDocument(documentable);
-		System.out.println(document.getDocument());
-		Assertions.assertNotNull(document);
-	}
+        TicketDocumentTemplate document = documentSystem.createTicketDocument(documentable);
+        System.out.println(document.getDocument());
+        Assertions.assertNotNull(document);
+    }
 }

@@ -12,64 +12,64 @@ import java.util.List;
 
 class PrintingServiceTest {
 
-	private Printable printable;
-	private PrintingServiceImpl printingSystem;
+    private Printable printable;
+    private PrintingServiceImpl printingSystem;
 
-	@BeforeEach
-	void setUp() {
-		printingSystem = new PrintingServiceImpl();
-		printable = new Printable() {
-			@Override
-			public String getTitle() {
-				return "Test Document";
-			}
+    @BeforeEach
+    void setUp() {
+        printingSystem = new PrintingServiceImpl();
+        printable = new Printable() {
+            @Override
+            public String getTitle() {
+                return "Test Document";
+            }
 
-			@Override
-			public List<String> getContent() {
-				List<String> content = new ArrayList<>();
+            @Override
+            public List<String> getContent() {
+                List<String> content = new ArrayList<>();
 
-				content.add("              _,.");
-				content.add("           ,''   `.     __....__ ");
-				content.add("         ,'        >.-''        ``-.__,)");
-				content.add("       ,'      _,''           _____ _,'");
-				content.add("      /      ,'           _.:':::_`:-._ ");
-				content.add("     :     ,'       _..-''  \\`'.;.`-:::`:. ");
-				content.add("     ;    /       ,'  ,::'  .\\,'`.`. `\\::)`  ");
-				content.add("    /    /      ,'        \\   `. '  )  )/ ");
-				content.add("   /    /      /:`.     `--`'   \\     '`");
-				content.add("   `-._/      /::::)             )");
-				content.add("      /      /,-.:(   , _   `.-' ");
-				content.add("     ;      :(,`.`-' ',`.     ;");
-				content.add("    :       |:\\`' )      `-.._\\ _");
-				content.add("    |         `:-(             `)``-._ ");
-				content.add("    |           `.`.        /``'      ``:-.-__,");
-				content.add("    :           / `:\\ .     :            ` \\`-");
-				content.add("     \\        ,'   '}  `.   |");
-				content.add("  _..-`.    ,'`-.   }   |`-'    ");
-				content.add(",'__    `-'' -.`.'._|   | ");
-				content.add("    ```--..,.__.(_|.|   |::._");
-				content.add("      __..','/ ,' :  `-.|::)_`.");
-				content.add("      `..__..-'   |`.      __,' ");
-				content.add("                  :  `-._ `  ;");
-				content.add("                   \\ \\   )  /");
-				content.add("                   .\\ `.   /");
-				content.add("                    ::    /");
-				content.add("                    :|  ,'");
-				content.add("                    :;,'");
-				content.add("                    `'");
+                content.add("              _,.");
+                content.add("           ,''   `.     __....__ ");
+                content.add("         ,'        >.-''        ``-.__,)");
+                content.add("       ,'      _,''           _____ _,'");
+                content.add("      /      ,'           _.:':::_`:-._ ");
+                content.add("     :     ,'       _..-''  \\`'.;.`-:::`:. ");
+                content.add("     ;    /       ,'  ,::'  .\\,'`.`. `\\::)`  ");
+                content.add("    /    /      ,'        \\   `. '  )  )/ ");
+                content.add("   /    /      /:`.     `--`'   \\     '`");
+                content.add("   `-._/      /::::)             )");
+                content.add("      /      /,-.:(   , _   `.-' ");
+                content.add("     ;      :(,`.`-' ',`.     ;");
+                content.add("    :       |:\\`' )      `-.._\\ _");
+                content.add("    |         `:-(             `)``-._ ");
+                content.add("    |           `.`.        /``'      ``:-.-__,");
+                content.add("    :           / `:\\ .     :            ` \\`-");
+                content.add("     \\        ,'   '}  `.   |");
+                content.add("  _..-`.    ,'`-.   }   |`-'    ");
+                content.add(",'__    `-'' -.`.'._|   | ");
+                content.add("    ```--..,.__.(_|.|   |::._");
+                content.add("      __..','/ ,' :  `-.|::)_`.");
+                content.add("      `..__..-'   |`.      __,' ");
+                content.add("                  :  `-._ `  ;");
+                content.add("                   \\ \\   )  /");
+                content.add("                   .\\ `.   /");
+                content.add("                    ::    /");
+                content.add("                    :|  ,'");
+                content.add("                    :;,'");
+                content.add("                    `'");
 
-				return content;
-			}
-		};
-	}
+                return content;
+            }
+        };
+    }
 
-	@AfterEach
-	void tearDown() {
-		printingSystem = null;
-	}
+    @AfterEach
+    void tearDown() {
+        printingSystem = null;
+    }
 
-	@Test
-	void canDocumentBePrintedTest() {
-		Assertions.assertNotNull(printingSystem.print(printable));
-	}
+    @Test
+    void canDocumentBePrintedTest() {
+        Assertions.assertNotNull(printingSystem.print(printable));
+    }
 }

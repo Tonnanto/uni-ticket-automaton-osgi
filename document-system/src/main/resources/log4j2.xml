@@ -9,7 +9,8 @@
         </Property>
     </Properties>
     <Appenders>
-        <RollingFile name="Orders" filename="../logs/orders.log" filePattern="$${date:yyyy-MM}/orders-%d{MM-dd-yyyy}-%i.log">
+        <RollingFile name="Orders" filename="../logs/orders.log"
+                     filePattern="$${date:yyyy-MM}/orders-%d{MM-dd-yyyy}-%i.log">
             <PatternLayout>
                 <Pattern>${NEW_ORDER_PATTERN}</Pattern>
             </PatternLayout>

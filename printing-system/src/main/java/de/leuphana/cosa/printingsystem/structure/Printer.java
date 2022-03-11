@@ -9,43 +9,43 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 
 public class Printer {
-	private final Queue<PrintJob> printJobQueue;
-	private ColorType colorType;
-	
-	public Printer() {
-		printJobQueue = new LinkedList<>();
-	}
+    private final Queue<PrintJob> printJobQueue;
+    private ColorType colorType;
 
-	public void setColorType(ColorType colorType) {
-		this.colorType = colorType;
-	}
+    public Printer() {
+        printJobQueue = new LinkedList<>();
+    }
 
-	public void addPrintJob(PrintJob printJob) {
-		printJobQueue.add(printJob);
-		PrintJobState printJobState = printJob.getPrintJobState();
-		printJob.setPrintJobState(printJobState.changePrintJobState(PrintAction.QUEUE));
-	}
+    public void setColorType(ColorType colorType) {
+        this.colorType = colorType;
+    }
 
-	public boolean print() {
-		PrintJob printJob = printJobQueue.remove();
-		PrintJobState printJobState = printJob.getPrintJobState();
-		printJobState.changePrintJobState(PrintAction.PRINT);
+    public void addPrintJob(PrintJob printJob) {
+        printJobQueue.add(printJob);
+        PrintJobState printJobState = printJob.getPrintJobState();
+        printJob.setPrintJobState(printJobState.changePrintJobState(PrintAction.QUEUE));
+    }
 
-		System.out.println("Printing ...\n");
-		List<String> contentLines = printJob.getPrintable().getContent();
-		for (String line: contentLines) {
-			System.out.println(line);
+    public boolean print() {
+        PrintJob printJob = printJobQueue.remove();
+        PrintJobState printJobState = printJob.getPrintJobState();
+        printJobState.changePrintJobState(PrintAction.PRINT);
 
-			try {
-				TimeUnit.MILLISECONDS.sleep(200);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				return false;
-			}
-		}
-		System.out.println("\nPrint Job finished!\n");
+        System.out.println("Printing ...\n");
+        List<String> contentLines = printJob.getPrintable().getContent();
+        for (String line : contentLines) {
+            System.out.println(line);
 
-		return true;
-	}
+            try {
+                TimeUnit.MILLISECONDS.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+        System.out.println("\nPrint Job finished!\n");
+
+        return true;
+    }
 
 }

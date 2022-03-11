@@ -83,7 +83,7 @@ public class DocumentServiceImpl implements DocumentService, BundleActivator {
 
     /**
      * Sends log to the CSB with documentable detail: (timestamp, document name, route, price)
-      */
+     */
     private void logDocumentableCreation(Documentable documentable) {
         LoggerFactory loggerFactory = (LoggerFactory) loggerFactoryTracker.getService();
 

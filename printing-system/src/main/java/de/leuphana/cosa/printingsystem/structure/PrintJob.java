@@ -6,7 +6,7 @@ import de.leuphana.cosa.printingsystem.structure.printjobstate.PrintJobState;
 
 public class PrintJob {
 
-//    private final Logger logger;
+    //    private final Logger logger;
     private Printable printable;
     private PrintJobState printJobState;
 
@@ -21,15 +21,15 @@ public class PrintJob {
         return printable;
     }
 
+    public void setPrintable(Printable printable) {
+        this.printable = printable;
+    }
+
     public PrintJobState getPrintJobState() {
         return printJobState;
     }
 
     public void setPrintJobState(PrintJobState printJobState) {
         this.printJobState = printJobState;
-    }
-
-    public void setPrintable(Printable printable) {
-        this.printable = printable;
     }
 }

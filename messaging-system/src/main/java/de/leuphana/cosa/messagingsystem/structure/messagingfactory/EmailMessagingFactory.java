@@ -8,14 +8,14 @@ import de.leuphana.cosa.messagingsystem.structure.messagingprotocol.MessagingPro
 
 public class EmailMessagingFactory extends AbstractMessagingFactory {
 
-	@Override
-	public MessagingProtocol createMessagingProtocol() {
-		return MessagingProtocolFactory.createMessagingProtocol(MessageType.EMAIL);
-	}
+    @Override
+    public MessagingProtocol createMessagingProtocol() {
+        return MessagingProtocolFactory.createMessagingProtocol(MessageType.EMAIL);
+    }
 
-	@Override
-	public Message createMessage(String sender, String receiver, String contentAsString) {
-		return MessageBuilder.createMessage(receiver, sender, contentAsString, MessageType.EMAIL);
-	}
+    @Override
+    public Message createMessage(String sender, String receiver, String contentAsString) {
+        return MessageBuilder.createMessage(receiver, sender, contentAsString, MessageType.EMAIL);
+    }
 
 }
